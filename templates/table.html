@@ -1,0 +1,156 @@
+<style type="text/css">
+    #share-buttons img {
+        width: 45px;
+        padding: 5px;
+        border: 0;
+        box-shadow: 0;
+        display: inline;
+    }
+</style>
+
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class=" container-fluid text-left">
+    <div class="row">
+        <div class="col-md-2 sidenav">
+           
+        </div>
+        <div class="col-md-8 text-center">
+                <div class="page-header">
+    
+                    <a href="/tvshows/1" class="btn btn-primary btn-lg" role="button" aria-disabled="true">
+                        1</a>
+                    <a href="/tvshows/2" class="btn btn-primary btn-lg" role="button" aria-disabled="true">
+                        2</a>
+                    <a href="/tvshows/3" class="btn btn-primary btn-lg" role="button" aria-disabled="true">
+                        3</a>
+    
+                </div>
+            </div>
+            <div class="col-md-2 sidenav">
+    
+            </div>
+        </div>
+
+        <div class="row">
+
+            <div class="col-md-2 sidenav">
+            </div>
+    
+            <div class="col-md-8 text-center">
+    
+                <div id="share-buttons">
+    
+                    <!-- Facebook -->
+                    <a href="http://www.facebook.com/sharer.php?u=https://simplesharebuttons.com" target="_blank">
+                        <img src="https://simplesharebuttons.com/images/somacro/facebook.png" alt="Facebook" />
+                    </a>
+    
+                    <!-- LinkedIn -->
+                    <a href="http://www.linkedin.com/shareArticle?mini=true&amp;url=https://simplesharebuttons.com"
+                        target="_blank">
+                        <img src="https://simplesharebuttons.com/images/somacro/linkedin.png" alt="LinkedIn" />
+                    </a>
+    
+                    <!-- Pinterest -->
+                    <a
+                        href="javascript:void((function()%7Bvar%20e=document.createElement('script');e.setAttribute('type','text/javascript');e.setAttribute('charset','UTF-8');e.setAttribute('src','http://assets.pinterest.com/js/pinmarklet.js?r='+Math.random()*99999999);document.body.appendChild(e)%7D)());">
+                        <img src="https://simplesharebuttons.com/images/somacro/pinterest.png" alt="Pinterest" />
+                    </a>
+    
+                    <!-- Print -->
+                    <a href="javascript:;" onclick="window.print()">
+                        <img src="https://simplesharebuttons.com/images/somacro/print.png" alt="Print" />
+                    </a>
+    
+                    <!-- Reddit -->
+                    <a href="http://reddit.com/submit?url=https://simplesharebuttons.com&amp;title=Simple Share Buttons"
+                        target="_blank">
+                        <img src="https://simplesharebuttons.com/images/somacro/reddit.png" alt="Reddit" />
+                    </a>
+    
+                    <!-- Twitter -->
+                    <a href="https://twitter.com/share?url=https://simplesharebuttons.com&amp;text=Simple%20Share%20Buttons&amp;hashtags=simplesharebuttons"
+                        target="_blank">
+                        <img src="https://simplesharebuttons.com/images/somacro/twitter.png" alt="Twitter" />
+                    </a>
+    
+                </div>
+            </div>
+    
+            <div class="col-md-2 sidenav">
+            </div>
+    
+        </div>
+
+        <div class="row">
+       
+
+                <div class="col-md-12 text-center">
+        
+                    <h1>Page: {{num}}</h1>
+                    <br>
+        
+        
+                </div>
+               
+            </div>
+
+        <div class="row">
+            <div class="col-md-2 sidenav">
+    
+            </div>
+            <div class="col-md-8 text-left">
+                <div class="moja">
+    
+                    
+                        
+                    <ul>
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>Fixed acidity</th>
+                                <th>Volatile acidity</th>
+                                <th>Citric acid</th>
+                                <th>Residual sugar</th>
+                                <th>Chlorides</th>
+                                <th>Free sulfur dioxide</th>
+                                <th>Total sulfur dioxide</th>
+                                <th>Density</th>
+                                <th>pH</th>
+                                <th>Sulphates</th>
+                                <th>Alcohol</th>
+                                <th>Quality</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for table in tables %}
+                            <tr>                                
+                                <td>{{table['fixed acidity']}}</td>
+                                <td>{{table['volatile acidity']}}</td>
+                                <td>{{table['citric acid']}}</td>
+                                <td>{{table['residual sugar']}}</td>
+                                <td>{{table['chlorides']}}</td>
+                                <td>{{table['free sulfur dioxide']}}</td>
+                                <td>{{table['total sulfur dioxide']}}</td>
+                                <td>{{table['density']}}</td>
+                                <td>{{table['pH']}}</td>
+                                <td>{{table['sulphates']}}</td>
+                                <td>{{table['alcohol']}}</td>
+                                <td>{{table['quality']}}</td>                            
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-2 sidenav">
+            
+        </div>
+    </div>
+</div>
+
+{% endblock %}
