@@ -8,7 +8,11 @@
     }
     .img-container {
         text-align: center;
+        margin-top: 1cm;
       }
+    .grid-container {
+        display: grid;     
+    }
 </style>
 
 {% extends "base.html" %}
@@ -18,12 +22,20 @@
 <div class=" container-fluid text-left">
     <div class="row">
         
-        <div class="col-md-2 sidenav">           
+        <div class="col-md-2 sidenav">   
+            <div class="grid-container">      
             <a href="{{ url_for(link1, _external=True) }}" class="btn btn-primary btn-lg" role="button" aria-disabled="true">
-                {{button1}}</a>                 
+                {{link1 | nesto | title }}</a>                 
             <a href="{{ url_for(link2, _external=True) }}" class="btn btn-primary btn-lg" role="button" aria-disabled="true">
-                {{link2 | capitalize}}</a>          
-        </div>
+                {{link2 | nesto | title }}</a>
+                {% if link3 %}
+            <a href="{{ url_for(link3, _external=True) }}" class="btn btn-primary btn-lg" role="button" aria-disabled="true">
+                {{link3 | nesto | title }}</a>
+                {% else %}
+                {% endif %}
+                
+        </div>    
+    </div>
         
         <div class="col-md-8 text-center">              
         </div>

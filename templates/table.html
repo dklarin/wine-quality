@@ -6,6 +6,9 @@
         box-shadow: 0;
         display: inline;
     }
+    .grid-container {
+        display: grid;
+    }
 </style>
 
 {% extends "base.html" %}
@@ -15,24 +18,29 @@
 <div class=" container-fluid text-left">
     <div class="row">
         <div class="col-md-2 sidenav">
+            <div class="grid-container">      
             <a href="{{ url_for(link1, _external=True) }}" class="btn btn-primary btn-lg" role="button" aria-disabled="true">
                 {{link1 | capitalize}}</a>                 
             <a href="{{ url_for(link2, _external=True) }}" class="btn btn-primary btn-lg" role="button" aria-disabled="true">
                 {{link2 | capitalize}}</a>
             <a href="{{ url_for(link3, _external=True) }}" class="btn btn-primary btn-lg" role="button" aria-disabled="true">
                 {{link3 | capitalize}}</a>
-           
+            </div>
         </div>
             <div class="col-md-8 text-center">
 
                 {% if switch == 1 %}
                 <div class="page-header">
-                    <a href="{{ url_for(link1, _external=True) }}" class="btn btn-primary btn-lg" role="button" aria-disabled="true">
-                        {{link1}}</a>                 
-                    <a href="{{ url_for(link2, _external=True) }}" class="btn btn-primary btn-lg" role="button" aria-disabled="true">
-                        {{link2}}</a>
-                    <a href="{{ url_for(link3, _external=True) }}" class="btn btn-primary btn-lg" role="button" aria-disabled="true">
-                        {{link3 | capitalize}}</a>    
+                    <a href="/dataset/1000" class="btn btn-primary btn-lg" role="button" aria-disabled="true">
+                        Nazad</a>  
+                    <a href="/dataset/{{num1}}" class="btn btn-primary btn-lg" role="button" aria-disabled="true">
+                        {{num1}}</a>                 
+                    <a href="/dataset/{{num2}}" class="btn btn-primary btn-lg" role="button" aria-disabled="true">
+                        {{num2}}</a>                  
+                    <a href="/dataset/{{num3}}" class="btn btn-primary btn-lg" role="button" aria-disabled="true">
+                        {{num3}}</a> 
+                    <a href="/dataset/{{num4}}" class="btn btn-primary btn-lg" role="button" aria-disabled="true">
+                        Naprijed</a>  
                 </div>
                 {% else %}
                 {% endif %}
