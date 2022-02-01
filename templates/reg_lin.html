@@ -15,27 +15,19 @@
 <div class=" container-fluid text-left">
     <div class="row">
         <div class="col-md-2 sidenav">
-            <a href="{{ url_for(link1, _external=True) }}" class="btn btn-primary btn-lg" role="button" aria-disabled="true">
-                {{link1 | capitalize}}</a>                 
-            <a href="{{ url_for(link2, _external=True) }}" class="btn btn-primary btn-lg" role="button" aria-disabled="true">
-                {{link2 | capitalize}}</a>
-            <a href="{{ url_for(link3, _external=True) }}" class="btn btn-primary btn-lg" role="button" aria-disabled="true">
-                {{link3 | capitalize}}</a>
            
         </div>
-            <div class="col-md-8 text-center">
-
-                {% if switch == 1 %}
+        <div class="col-md-8 text-center">
                 <div class="page-header">
-                    <a href="{{ url_for(link1, _external=True) }}" class="btn btn-primary btn-lg" role="button" aria-disabled="true">
-                        {{link1}}</a>                 
-                    <a href="{{ url_for(link2, _external=True) }}" class="btn btn-primary btn-lg" role="button" aria-disabled="true">
-                        {{link2}}</a>
-                    <a href="{{ url_for(link3, _external=True) }}" class="btn btn-primary btn-lg" role="button" aria-disabled="true">
-                        {{link3 | capitalize}}</a>    
+    
+                    <a href="/tvshows/1" class="btn btn-primary btn-lg" role="button" aria-disabled="true">
+                        1</a>
+                    <a href="/tvshows/2" class="btn btn-primary btn-lg" role="button" aria-disabled="true">
+                        2</a>
+                    <a href="/tvshows/3" class="btn btn-primary btn-lg" role="button" aria-disabled="true">
+                        3</a>
+    
                 </div>
-                {% else %}
-                {% endif %}
             </div>
             <div class="col-md-2 sidenav">
     
@@ -45,8 +37,6 @@
         <div class="row">
 
             <div class="col-md-2 sidenav">
-               
-             
             </div>
     
             <div class="col-md-8 text-center">
@@ -91,8 +81,6 @@
             </div>
     
             <div class="col-md-2 sidenav">
-
-               
             </div>
     
         </div>
@@ -112,7 +100,6 @@
 
         <div class="row">
             <div class="col-md-2 sidenav">
-               
     
             </div>
             <div class="col-md-8 text-left">
@@ -121,42 +108,7 @@
                     
                         
                     <ul>
-                    <table class="table table-bordered table-striped">
-                        <thead>
-                            <tr>
-                                <th>Fixed acidity</th>
-                                <th>Volatile acidity</th>
-                                <th>Citric acid</th>
-                                <th>Residual sugar</th>
-                                <th>Chlorides</th>
-                                <th>Free sulfur dioxide</th>
-                                <th>Total sulfur dioxide</th>
-                                <th>Density</th>
-                                <th>pH</th>
-                                <th>Sulphates</th>
-                                <th>Alcohol</th>
-                                <th>Quality</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for table in tables %}
-                            <tr>                                
-                                <td>{{table['fixed acidity']}}</td>
-                                <td>{{table['volatile acidity']}}</td>
-                                <td>{{table['citric acid']}}</td>
-                                <td>{{table['residual sugar']}}</td>
-                                <td>{{table['chlorides']}}</td>
-                                <td>{{table['free sulfur dioxide']}}</td>
-                                <td>{{table['total sulfur dioxide']}}</td>
-                                <td>{{table['density']}}</td>
-                                <td>{{table['pH']}}</td>
-                                <td>{{table['sulphates']}}</td>
-                                <td>{{table['alcohol']}}</td>
-                                <td>{{table['quality']}}</td>                            
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
+                  <div>Linearna regresija</div>
                 </ul>
             </div>
         </div>

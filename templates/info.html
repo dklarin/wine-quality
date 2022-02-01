@@ -1,0 +1,129 @@
+<style type="text/css">
+    #share-buttons img {
+        width: 45px;
+        padding: 5px;
+        border: 0;
+        box-shadow: 0;
+        display: inline;
+    }
+    .img-container {
+        text-align: center;
+      }
+</style>
+
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class=" container-fluid text-left">
+    <div class="row">
+        
+        <div class="col-md-2 sidenav">           
+            <a href="{{ url_for(link1, _external=True) }}" class="btn btn-primary btn-lg" role="button" aria-disabled="true">
+                {{button1}}</a>                 
+            <a href="{{ url_for(link2, _external=True) }}" class="btn btn-primary btn-lg" role="button" aria-disabled="true">
+                {{link2 | capitalize}}</a>          
+        </div>
+        
+        <div class="col-md-8 text-center">              
+        </div>
+        
+        <div class="col-md-2 sidenav">    
+        </div>
+    </div>
+
+    <div class="row">
+
+        <div class="col-md-2 sidenav">
+        </div>
+    
+        <div class="col-md-8 text-center">
+    
+            <div id="share-buttons">
+    
+                    <!-- Facebook -->
+                    <a href="http://www.facebook.com/sharer.php?u=https://simplesharebuttons.com" target="_blank">
+                        <img src="https://simplesharebuttons.com/images/somacro/facebook.png" alt="Facebook" />
+                    </a>
+    
+                    <!-- LinkedIn -->
+                    <a href="http://www.linkedin.com/shareArticle?mini=true&amp;url=https://simplesharebuttons.com"
+                        target="_blank">
+                        <img src="https://simplesharebuttons.com/images/somacro/linkedin.png" alt="LinkedIn" />
+                    </a>
+    
+                    <!-- Pinterest -->
+                    <a
+                        href="javascript:void((function()%7Bvar%20e=document.createElement('script');e.setAttribute('type','text/javascript');e.setAttribute('charset','UTF-8');e.setAttribute('src','http://assets.pinterest.com/js/pinmarklet.js?r='+Math.random()*99999999);document.body.appendChild(e)%7D)());">
+                        <img src="https://simplesharebuttons.com/images/somacro/pinterest.png" alt="Pinterest" />
+                    </a>
+    
+                    <!-- Print -->
+                    <a href="javascript:;" onclick="window.print()">
+                        <img src="https://simplesharebuttons.com/images/somacro/print.png" alt="Print" />
+                    </a>
+    
+                    <!-- Reddit -->
+                    <a href="http://reddit.com/submit?url=https://simplesharebuttons.com&amp;title=Simple Share Buttons"
+                        target="_blank">
+                        <img src="https://simplesharebuttons.com/images/somacro/reddit.png" alt="Reddit" />
+                    </a>
+    
+                    <!-- Twitter -->
+                    <a href="https://twitter.com/share?url=https://simplesharebuttons.com&amp;text=Simple%20Share%20Buttons&amp;hashtags=simplesharebuttons"
+                        target="_blank">
+                        <img src="https://simplesharebuttons.com/images/somacro/twitter.png" alt="Twitter" />
+                    </a>
+    
+                </div>
+            </div>
+    
+            <div class="col-md-2 sidenav">
+
+               
+            </div>
+    
+        </div>
+
+        <div class="row">
+       
+
+                <div class="col-md-12 text-center">
+                    {% if rows %}
+                    {{rows}}
+
+                    <br>
+                    {{columns}}
+                    {% else %}
+                    {% endif %}
+        
+        
+                </div>
+               
+            </div>
+
+        <div class="row">
+            <div class="col-md-2 sidenav">
+               
+    
+            </div>
+            <div class="col-md-8 text-left">
+                <div class="img-container">
+                    {% if image %}
+                    <img src="{{image}}" alt="Chart" height="500" width="500">
+                    {% else %}
+                    {% endif %}
+                   
+                
+                    
+                        
+               
+            </div>
+        </div>
+        <div class="col-md-2 sidenav">
+            
+        </div>
+    </div>
+</div>
+
+{% endblock %}
