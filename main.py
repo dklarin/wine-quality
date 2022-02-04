@@ -6,7 +6,6 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import os.path
-from PIL import Image
 
 from methods import *
 
@@ -27,6 +26,7 @@ iterations = 2000
 np.random.seed(123)
 theta = np.random.rand(2)
 
+# Izračun gradijentnog spusta
 past_thetas, past_costs = gradient_descent(
     x_scaled, y, theta, iterations, alpha)
 theta = past_thetas[-1]
@@ -58,9 +58,9 @@ def dataset():
     json_list = json.loads(json.dumps(
         list(data.loc[0:10].T.to_dict().values())))
     return render_template(
-        'table.html', tables=json_list,
+        'table.html', tables=json_list, title='dataset',
         link1='dataset', link2='describe', link3='shape',
-        switch=1)
+        switch=0, stat=0)
 
 # deskriptivna statistika
 
@@ -68,10 +68,20 @@ def dataset():
 @app.route('/describe')
 def describe():
     describe = data.describe()
-    json_list = json.loads(json.dumps(list(describe.T.to_dict().values())))
+    describe = describe.round(2)
+    #escribe = describe.reset_index(inplace=True)
+    #describe = describe.rename(columns={'index': 'statistics'})
+
+    s = pd.Series(['count', 'mean', 'std', 'min', '25%', '50%',
+                   '75%', 'max'], index=[0, 1, 2, 3, 4, 5, 6, 7])
+    describe['statistics'] = s.values
+
+    json_list = json.loads(json.dumps(
+        list(describe.T.to_dict().values())))
     return render_template(
-        'table.html', tables=json_list,
-        link1='dataset', link2='describe', link3='shape')
+        'table.html', tables=json_list, title='describe',
+        link1='dataset', link2='describe', link3='shape',
+        stat=1)
 
 # retci i stupci
 
@@ -80,7 +90,7 @@ def describe():
 def shape():
     shape = data.shape
     return render_template(
-        'info.html', shape=shape, rows=shape[0], columns=shape[1],
+        'info.html', shape=shape, rows=shape[0], columns=shape[1], title='shape',
         link1='dataset', link2='describe', link3='shape')
 
 # linearna regresija
@@ -123,19 +133,19 @@ def distribution_alcohol():
     plt.ylabel('Count')
     plt.xlabel('alcohol')
 
-    file_exists = os.path.exists('static/pics/distr_alcohol.png')
+    file_exists = os.path.exists('static/images/distr_alcohol.png')
 
     if file_exists:
-        img = os.path.join('static/pics/distr_alcohol.png')
+        image = os.path.join('static/images/distr_alcohol.png')
     else:
-        fig.savefig('static/pics/distr_alcohol.png')
+        fig.savefig('static/images/distr_alcohol.png')
 
     return render_template(
         'info.html',
         link1='distribution_alcohol', link2='distribution_quality',
         link3='gradient_descen',
         link4='funkcija_troska',
-        image=img)
+        image=image)
 
 # distribucija kvalitete
 
@@ -148,12 +158,12 @@ def distribution_quality():
     plt.ylabel('Count')
     plt.xlabel('quality')
 
-    file_exists = os.path.exists('static/pics/distr_quality.png')
+    file_exists = os.path.exists('static/images/distr_quality.png')
 
     if file_exists:
-        img = os.path.join('static/pics/distr_quality.png')
+        image = os.path.join('static/images/distr_quality.png')
     else:
-        fig.savefig('static/pics/distr_quality.png')
+        fig.savefig('static/images/distr_quality.png')
 
     return render_template(
         'info.html',
@@ -161,7 +171,7 @@ def distribution_quality():
         link3='gradient_descen',
         link4='funkcija_troska',
         button1='Alcohol Distribution',
-        image=img)
+        image=image)
 
 # skaliranje, hiperparametri, izračun gradijentnog spusta
 
@@ -170,16 +180,16 @@ def distribution_quality():
 def gradient_descen():
 
     # Hiperparametri za gradijentni spust
-    alpha = 0.01
-    iterations = 2000
-    m = y.size
-    np.random.seed(123)
-    theta = np.random.rand(2)
+    #alpha = 0.01
+    #iterations = 2000
+    #m = y.size
+    # np.random.seed(123)
+    #theta = np.random.rand(2)
 
     # Izračun gradijentnog spusta
-    past_thetas, past_costs = gradient_descent(
-        x_scaled, y, theta, iterations, alpha)
-    theta = past_thetas[-1]
+    # past_thetas, past_costs = gradient_descent(
+    #    x_scaled, y, theta, iterations, alpha)
+    #theta = past_thetas[-1]
 
     return render_template(
         'info.html',
@@ -194,29 +204,28 @@ def gradient_descen():
 def funkcija_troska():
 
     # Hiperparametri za gradijentni spust
-    alpha = 0.01
-    iterations = 2000
-    m = y.size
-    np.random.seed(123)
-    theta = np.random.rand(2)
+    #alpha = 0.01
+    #iterations = 2000
+    #m = y.size
+    # np.random.seed(123)
+    #theta = np.random.rand(2)
 
-    past_thetas, past_costs = gradient_descent(
-        x_scaled, y, theta, iterations, alpha)
-    theta = past_thetas[-1]
+    # past_thetas, past_costs = gradient_descent(
+    #    x_scaled, y, theta, iterations, alpha)
+    #theta = past_thetas[-1]
 
     fig = figax()
     plt.title('Cost Function J')
     plt.xlabel('No. of iterations')
     plt.ylabel('Cost')
     plt.plot(past_costs)
-    # plt.show()
 
-    file_exists = os.path.exists('static/pics/funkcija_troska.png')
+    file_exists = os.path.exists('static/images/funkcija_troska.png')
 
     if file_exists:
-        img = os.path.join('static/pics/funkcija_troska.png')
+        image = os.path.join('static/images/funkcija_troska.png')
     else:
-        fig.savefig('static/pics/funkcija_troska.png')
+        fig.savefig('static/images/funkcija_troska.png')
 
     return render_template(
         'info.html',
@@ -224,16 +233,11 @@ def funkcija_troska():
         link3='gradient_descen', link4='funkcija_troska',
         link5='izgled_regresije',
         button1='Alcohol Distribution',
-        image=img)
+        image=image)
 
 
 @app.route('/izgled_regresije')
 def izgled_regresije():
-
-    print("Theta0: ", theta[0])
-    print("Theta1: ", theta[1])
-
-    #fig = figax()
 
     plt.figure(figsize=(10, 6))
     plt.scatter(x_scaled[:, 1], y, color='black')
@@ -243,23 +247,15 @@ def izgled_regresije():
     plt.title("our prediction visualization")
     plt.xlabel('Alcohol percent')
     plt.ylabel('Quality of wine')
-    # plt.show()
-    #new_img = Image.new("L", (400, 400), "white")
-    # new_img.putdata(fig)
-    # new_img.save('out.png')
+
     plt.plot(x, s)
 
-    file_exists = os.path.exists('static/pics/izgled_regresije.png')
-
-    #im = Image.open('static/pics/izgled_regresije.png')
+    file_exists = os.path.exists('static/images/izgled_regresije.png')
 
     if file_exists:
-        print("Postoji slika")
-        im = os.path.join('static/pics/izgled_regresije.png')
+        image = os.path.join('static/images/izgled_regresije.png')
     else:
-        print("hi")
-        # fig.savefig('static/pics/izgled_regresije.png')
-        plt.savefig('static/pics/izgled_regresije.png')
+        plt.savefig('static/images/izgled_regresije.png')
 
     return render_template(
         'info.html',
@@ -267,7 +263,7 @@ def izgled_regresije():
         link3='gradient_descen', link4='funkcija_troska',
         link5='izgled_regresije',
         button1='Alcohol Distribution',
-        image=im)
+        image=image)
 
 
 @app.route('/links/')
