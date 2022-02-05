@@ -1,3 +1,4 @@
+from ast import keyword
 from flask import Flask, render_template
 from flask_bootstrap3 import Bootstrap
 import requests
@@ -93,8 +94,16 @@ def describe():
 def shape():
     shape = data.shape
     return render_template(
-        'info.html', shape=shape, rows=shape[0], columns=shape[1], title='shape',
-        link1='dataset', link2='describe', link3='shape')
+        'info.html',
+        keyword1='retci',
+        keyword2='stupci',
+        rows=shape[0],
+        columns=shape[1],
+        title='shape',
+        link1='dataset',
+        link2='describe',
+        link3='shape'
+    )
 
 # linearna regresija
 
@@ -194,20 +203,10 @@ def distribution_quality():
 @app.route('/gradient_descen')
 def gradient_descen():
 
-    # Hiperparametri za gradijentni spust
-    #alpha = 0.01
-    #iterations = 2000
-    #m = y.size
-    # np.random.seed(123)
-    #theta = np.random.rand(2)
-
-    # Izračun gradijentnog spusta
-    # past_thetas, past_costs = gradient_descent(
-    #    x_scaled, y, theta, iterations, alpha)
-    #theta = past_thetas[-1]
-
     return render_template(
         'info.html',
+        keyword1='theta 1',
+        keyword2='theta 2',
         link1=links[0],
         link2=links[1],
         link3=links[2],
@@ -215,24 +214,14 @@ def gradient_descen():
         link5=links[4],
         button1='Alcohol Distribution',
         title='gradient descent',
-        rows=theta[0], columns=theta[1])
+        rows=theta[0].round(2),
+        columns=theta[1].round(2))
 
 # funkcija troška
 
 
 @app.route('/funkcija_troska')
 def funkcija_troska():
-
-    # Hiperparametri za gradijentni spust
-    #alpha = 0.01
-    #iterations = 2000
-    #m = y.size
-    # np.random.seed(123)
-    #theta = np.random.rand(2)
-
-    # past_thetas, past_costs = gradient_descent(
-    #    x_scaled, y, theta, iterations, alpha)
-    #theta = past_thetas[-1]
 
     fig = figax()
     plt.title('Cost Function J')
