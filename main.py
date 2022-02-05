@@ -12,12 +12,12 @@ import os.path
 from methods import *
 
 from regression_linear import simple_page
-from regression_polynomial import reg_poly
+from reg_pol import reg_pol_page
 
 app = Flask(__name__)
 bootstrap = Bootstrap(app)
 app.register_blueprint(simple_page)
-app.register_blueprint(reg_poly)
+app.register_blueprint(reg_pol_page)
 
 
 data = pd.read_csv("winequality-red.csv")

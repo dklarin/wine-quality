@@ -1,5 +1,8 @@
 import matplotlib.pyplot as plt
 import numpy as np
+from sklearn.preprocessing import PolynomialFeatures
+
+poly_reg = PolynomialFeatures(degree=4)
 
 
 def figax():
@@ -51,3 +54,16 @@ def dataset(num):
         link1='describe', link2='describe', link3='shape',
         switch=1,
         num1=num1, num2=num2, num3=num3, num4=num4, num=str(num))'''
+
+
+def plot(X, y, y_pred, lin_reg):
+    X_grid = np.arange(min(X), max(X), 0.1)
+    X_grid = X_grid.reshape((len(X_grid), 1))
+    plt.scatter(X, y, color='red')
+    plt.scatter(X, y_pred, color='green')
+    plt.plot(X_grid, lin_reg.predict(
+        poly_reg.fit_transform(X_grid)), color='black')
+    plt.title('Polynomial Regression')
+    plt.xlabel('pH level')
+    plt.ylabel('Quality')
+    plt.show()
