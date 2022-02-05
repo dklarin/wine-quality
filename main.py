@@ -10,8 +10,13 @@ import os.path
 
 from methods import *
 
+from regression_linear import reg_lin
+from regression_polynomial import reg_poly
+
 app = Flask(__name__)
 bootstrap = Bootstrap(app)
+app.register_blueprint(reg_lin)
+app.register_blueprint(reg_poly)
 
 links = ['distribution_alcohol', 'distribution_quality',
          'gradient_descen', 'funkcija_troska', 'izgled_regresije']
@@ -105,18 +110,9 @@ def shape():
         link3='shape'
     )
 
-# linearna regresija
-
-
-@app.route('/linear_regression')
-def reg_lin():
-
-    return render_template(
-        'info.html',
-        link1='gradijentni_spust', link2='unakrsna_validacija', title='linear regression')
-
-
 # gradijentni spust
+
+
 @app.route('/gradijentni_spust')
 def gradijentni_spust():
 
@@ -253,7 +249,7 @@ def izgled_regresije():
 
     plt.figure(figsize=(10, 6))
     plt.scatter(x_scaled[:, 1], y, color='black')
-    x = np.linspace(-5, 20, 1000)
+    x = np.linspace(-5, 7.5, 1000)
     s = theta[1] * x + theta[0]
 
     plt.title("our prediction visualization")
