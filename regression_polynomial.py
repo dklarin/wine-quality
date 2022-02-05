@@ -1,12 +1,12 @@
 from flask import Blueprint, render_template, abort
 from jinja2 import TemplateNotFound
 
-reg_poly = Blueprint('regression_polynomial_page', __name__,
-                     template_folder='templates')
+reg_pol_page = Blueprint('reg_pol_page', __name__,
+                         template_folder='templates')
 
 
-@reg_poly.route('/', defaults={'page': 'index'})
-@reg_poly.route('/<page>')
+@reg_pol_page.route('/', defaults={'page': 'index'})
+@reg_pol_page.route('/<page>')
 def show(page):
     try:
         return render_template(f'pages/{page}.html')
@@ -14,7 +14,7 @@ def show(page):
         abort(404)
 
 
-@reg_poly.route('/polynomial_regression')
+@reg_pol_page.route('/polynomial_regression')
 def polynomial_regression():
 
     return render_template(
