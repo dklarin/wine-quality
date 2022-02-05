@@ -71,44 +71,36 @@
     <div class="col-md-8 text-center">
       <h1>{{title | capitalize}}</h1>
       <br />
-    </div>
 
-    <div class="col-md-2 sidenav"></div>
-  </div>
+      <div class="moja">
+        {% if rows %} {{rows}}
 
-  <div class="row">
-    <div class="col-md-2 sidenav"></div>
-
-    <div class="col-md-8 text-center"></div>
-
-    <div class="col-md-2 sidenav"></div>
-  </div>
-
-  <div class="row">
-    <div class="col-md-12 text-center">
-      {% if rows %} {{rows}}
-
-      <br />
-      {{columns}} {% else %} {% endif %}
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="col-md-2 sidenav"></div>
-    <div class="col-md-8 text-left">
-      <div class="img-container">
-        {% if image %}
-        <img src="{{image}}" alt="Chart" />
+        <br />
+        {{columns}} {% elif image %}
+        <div class="img-container"><img src="{{image}}" alt="Chart" /></div>
         {% else %} {% endif %}
       </div>
     </div>
+
+    <div class="col-md-2 sidenav"></div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-2 sidenav"></div>
+    <div class="col-md-8 text-center"></div>
+    <div class="col-md-2 sidenav"></div>
+  </div>
+  <div class="row">
+    <div class="col-md-12 text-center"></div>
+  </div>
+  <div class="row">
+    <div class="col-md-2 sidenav"></div>
+    <div class="col-md-8 text-left"></div>
     <div class="col-md-2 sidenav"></div>
   </div>
   <div class="row">
     <div class="col-md-2 sidenav"></div>
-
     <div class="col-md-8 text-center"></div>
-
     <div class="col-md-2 sidenav"></div>
   </div>
 </div>

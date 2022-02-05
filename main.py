@@ -11,6 +11,11 @@ from methods import *
 
 app = Flask(__name__)
 bootstrap = Bootstrap(app)
+
+links = ['distribution_alcohol', 'distribution_quality',
+         'gradient_descen', 'funkcija_troska', 'izgled_regresije']
+
+
 data = pd.read_csv("winequality-red.csv")
 x = data['alcohol']
 y = data['quality']
@@ -69,12 +74,10 @@ def dataset():
 def describe():
     describe = data.describe()
     describe = describe.round(2)
-    #escribe = describe.reset_index(inplace=True)
-    #describe = describe.rename(columns={'index': 'statistics'})
 
-    s = pd.Series(['count', 'mean', 'std', 'min', '25%', '50%',
-                   '75%', 'max'], index=[0, 1, 2, 3, 4, 5, 6, 7])
-    describe['statistics'] = s.values
+    stats = pd.Series(['count', 'mean', 'std', 'min', '25%', '50%',
+                       '75%', 'max'], index=[0, 1, 2, 3, 4, 5, 6, 7])
+    describe['statistics'] = stats.values
 
     json_list = json.loads(json.dumps(
         list(describe.T.to_dict().values())))
@@ -101,7 +104,7 @@ def reg_lin():
 
     return render_template(
         'info.html',
-        link1='gradijentni_spust', link2='unakrsna_validacija')
+        link1='gradijentni_spust', link2='unakrsna_validacija', title='linear regression')
 
 
 # gradijentni spust
@@ -110,7 +113,13 @@ def gradijentni_spust():
 
     return render_template(
         'info.html',
-        link1='distribution_alcohol', link2='distribution_quality')
+        link1=links[0],
+        link2=links[1],
+        link3=links[2],
+        link4=links[3],
+        link5=links[4],
+        title='gradijentni spust'
+    )
 
 # unakrsna validacija
 
@@ -142,9 +151,12 @@ def distribution_alcohol():
 
     return render_template(
         'info.html',
-        link1='distribution_alcohol', link2='distribution_quality',
-        link3='gradient_descen',
-        link4='funkcija_troska',
+        link1=links[0],
+        link2=links[1],
+        link3=links[2],
+        link4=links[3],
+        link5=links[4],
+        title='distribution alcohol',
         image=image)
 
 # distribucija kvalitete
@@ -167,10 +179,13 @@ def distribution_quality():
 
     return render_template(
         'info.html',
-        link1='distribution_alcohol', link2='distribution_quality',
-        link3='gradient_descen',
-        link4='funkcija_troska',
+        link1=links[0],
+        link2=links[1],
+        link3=links[2],
+        link4=links[3],
+        link5=links[4],
         button1='Alcohol Distribution',
+        title='distribution quality',
         image=image)
 
 # skaliranje, hiperparametri, izračun gradijentnog spusta
@@ -193,9 +208,14 @@ def gradient_descen():
 
     return render_template(
         'info.html',
-        link1='distribution_alcohol', link2='distribution_quality', link3='gradient_descen',
-        link4='funkcija_troska',
-        button1='Alcohol Distribution', rows=theta[0], columns=theta[1])
+        link1=links[0],
+        link2=links[1],
+        link3=links[2],
+        link4=links[3],
+        link5=links[4],
+        button1='Alcohol Distribution',
+        title='gradient descent',
+        rows=theta[0], columns=theta[1])
 
 # funkcija troška
 
@@ -229,10 +249,13 @@ def funkcija_troska():
 
     return render_template(
         'info.html',
-        link1='distribution_alcohol', link2='distribution_quality',
-        link3='gradient_descen', link4='funkcija_troska',
-        link5='izgled_regresije',
+        link1=links[0],
+        link2=links[1],
+        link3=links[2],
+        link4=links[3],
+        link5=links[4],
         button1='Alcohol Distribution',
+        title='funkcija troška',
         image=image)
 
 
@@ -259,15 +282,18 @@ def izgled_regresije():
 
     return render_template(
         'info.html',
-        link1='distribution_alcohol', link2='distribution_quality',
-        link3='gradient_descen', link4='funkcija_troska',
-        link5='izgled_regresije',
+        link1=links[0],
+        link2=links[1],
+        link3=links[2],
+        link4=links[3],
+        link5=links[4],
         button1='Alcohol Distribution',
+        title='izgled regresije',
         image=image)
 
 
-@app.route('/links/')
-def links():
-    links = ['https://github.com/PMF-Data-Science/PMF-DataScience',
-             'https://github.com/PMF-Data-Science/computer-science-educators-stack-exchange-data']
-    return render_template('links.html', links=links)
+@app.route('/linkovi/')
+def linkovi():
+    linkovi = ['https://github.com/PMF-Data-Science/PMF-DataScience',
+               'https://github.com/PMF-Data-Science/computer-science-educators-stack-exchange-data']
+    return render_template('links.html', linkovi=linkovi)

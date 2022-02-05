@@ -1,5 +1,5 @@
-{% extends "base.html" %} {% block title %}Stack Exchange Data{% endblock %}
-{% block navbar %} {% include "header.html" %} {% include "footer.html" %} {%
+{% extends "base.html" %} {% block title %}Stack Exchange Data{% endblock %} {%
+block navbar %} {% include "header.html" %} {% include "footer.html" %} {%
 endblock %} {% block content %}
 <div class="container">
   <div class="page-header">
@@ -10,7 +10,7 @@ endblock %} {% block content %}
         </tr>
       </thead>
       <tbody>
-        {% for link in links %}
+        {% for link in linkovi %}
         <tr>
           <td><a href="{{ link }}">{{ link }}</a></td>
         </tr>
