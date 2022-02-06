@@ -9,6 +9,25 @@
   .grid-container {
     display: grid;
   }
+
+  .grid-container-2 {
+    display: grid;
+    grid-template-columns: 3fr 1fr 1.5fr 1.5fr 1fr 3fr;
+    font-size: 250%;
+  }
+
+  .grid-item-1 {
+    grid-column: 3;
+    text-align: left;
+  }
+  .grid-item-2 {
+    grid-column: 4;
+    text-align: right;
+  }
+
+  .grid-item-12 {
+    grid-column: 3/4;
+  }
 </style>
 
 {% extends "base.html" %} {% block content %}
@@ -47,7 +66,7 @@
       <h1>{{title | capitalize}}</h1>
       <br />
 
-      {% if switch == 1 %}
+      {% if switch == 5 %}
       <div class="page-header">
         <a
           href="/dataset/1000"
@@ -90,15 +109,13 @@
           Naprijed</a
         >
       </div>
-      {% else %} {% endif %}
-
+      {% else %} {% endif %} {% if switch != 2 %}
       <div class="moja">
         <ul>
           <table class="table table-bordered table-striped">
             <thead>
               <tr>
-                {% if stat == 1 %}
-                <th>Statistics</th>
+                {% if switch == 0 %}
                 <th>Fixed acidity</th>
                 <th>Volatile acidity</th>
                 <th>Citric acid</th>
@@ -111,7 +128,8 @@
                 <th>Sulphates</th>
                 <th>Alcohol</th>
                 <th>Quality</th>
-                {% else %}
+                {% elif switch == 1 %}
+                <th>Statistics</th>
                 <th>Fixed acidity</th>
                 <th>Volatile acidity</th>
                 <th>Citric acid</th>
@@ -130,8 +148,7 @@
             <tbody>
               {% for table in tables %}
               <tr>
-                {% if stat == 1 %}
-                <td>{{table['statistics']}}</td>
+                {% if switch == 0 %}
                 <td>{{table['fixed acidity']}}</td>
                 <td>{{table['volatile acidity']}}</td>
                 <td>{{table['citric acid']}}</td>
@@ -144,7 +161,8 @@
                 <td>{{table['sulphates']}}</td>
                 <td>{{table['alcohol']}}</td>
                 <td>{{table['quality']}}</td>
-                {% else %}
+                {% elif switch == 1 %}
+                <td>{{table['statistics']}}</td>
                 <td>{{table['fixed acidity']}}</td>
                 <td>{{table['volatile acidity']}}</td>
                 <td>{{table['citric acid']}}</td>
@@ -165,13 +183,44 @@
         </ul>
       </div>
     </div>
+    {% endif %}
     <div class="col-md-2 sidenav"></div>
   </div>
 
   <div class="row">
     <div class="col-md-2 sidenav"></div>
 
-    <div class="col-md-8 text-center"></div>
+    <div class="col-md-8 text-center">
+      <div class="grid-container-2">
+        <div class="grid-item-12">
+          <div class="moja">
+            <ul>
+              <table class="table table-bordered table-striped">
+                <thead>
+                  <tr>
+                   {% if switch == 2 %}
+                      <th>Prave vrijednosti</th>
+                      <th>Procjene</th>
+                
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for table in tables %}
+                  <tr>
+              <td>{{table['Prave vrijednosti']}}</td>
+                      <td>{{table['Procjene']}}</td>
+                      {% endfor %}
+                      {% endif %}
+                  </tr>
+             
+                </tbody>
+              </table>
+            </ul>
+          </div>
+        </div>
+        </div>
+      </div>
+    </div>
 
     <div class="col-md-2 sidenav"></div>
   </div>

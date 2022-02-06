@@ -59,9 +59,14 @@ def dataset():
     json_list = json.loads(json.dumps(
         list(data.loc[0:10].T.to_dict().values())))
     return render_template(
-        'table.html', tables=json_list, title='dataset',
-        link1='dataset', link2='describe', link3='shape',
-        switch=0, stat=0)
+        'table.html',
+        tables=json_list,
+        title='dataset',
+        link1='dataset',
+        link2='describe',
+        link3='shape',
+        switch=0
+    )
 
 
 # deskriptivna statistika
@@ -77,9 +82,14 @@ def describe():
     json_list = json.loads(json.dumps(
         list(describe.T.to_dict().values())))
     return render_template(
-        'table.html', tables=json_list, title='describe',
-        link1='dataset', link2='describe', link3='shape',
-        stat=1)
+        'table.html',
+        tables=json_list,
+        title='describe',
+        link1='dataset',
+        link2='describe',
+        link3='shape',
+        switch=1
+    )
 
 
 # retci i stupci
@@ -101,6 +111,6 @@ def shape():
 
 @app.route('/linkovi/')
 def linkovi():
-    linkovi = ['https://github.com/PMF-Data-Science/PMF-DataScience',
-               'https://github.com/PMF-Data-Science/computer-science-educators-stack-exchange-data']
+    linkovi = ['https://www.pmfst.unist.hr/',
+               'https://www.pmfst.unist.hr/kalendar/']
     return render_template('links.html', linkovi=linkovi)

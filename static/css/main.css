@@ -27,6 +27,11 @@
   grid-column: 4;
   text-align: right;
 }
+
+.grid-item-12 {
+  grid-column: 3/4;
+}
+
 .bigger-font {
   font-size: 250%;
   margin-top: 1cm;

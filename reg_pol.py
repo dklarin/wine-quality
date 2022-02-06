@@ -6,6 +6,7 @@ from sklearn import linear_model, metrics
 import pandas as pd
 from methods import *
 import os.path
+import json
 
 reg_pol_page = Blueprint('reg_pol_page', __name__,
                          template_folder='templates')
@@ -14,6 +15,7 @@ data = pd.read_csv("winequality-red.csv")
 x = data['pH']
 y = data['quality']
 
+# Početak
 poly_reg = PolynomialFeatures(degree=4)
 x_poly = poly_reg.fit_transform(x.to_numpy().reshape(-1, 1))
 
@@ -22,6 +24,12 @@ lr = linear_model.LinearRegression(
 
 lr.fit(x_poly, y)
 y_predict = lr.predict(x_poly)
+
+# Prisilni pristup
+min_deg = 1
+max_deg = 10
+rmses, min_rmse, min_deg = rmses_deg_from_range(min_deg, max_deg)
+degrees = range(1, 10)
 
 
 @reg_pol_page.route('/', defaults={'page': 'index'})
@@ -40,7 +48,8 @@ def regression_polynomial():
     return render_template(
         'info.html',
         link1='reg_pol_page.'+'izgled_regresije_pol',
-        link2='index',
+        link2='reg_pol_page.'+'metrike',
+        link3='reg_pol_page.'+'prisilni_pristup',
         title='polynomial regression')
 
 
@@ -70,6 +79,7 @@ def izgled_regresije_pol():
         link1='reg_pol_page.'+'izgled_regresije_pol',
         link2='reg_pol_page.'+'metrike',
         link3='reg_pol_page.'+'prisilni_pristup',
+        link4='reg_pol_page.'+'treniranje_modela',
         title='polynomial regression',
         image=image
     )
@@ -97,6 +107,7 @@ def metrike():
         link1='reg_pol_page.'+'izgled_regresije_pol',
         link2='reg_pol_page.'+'metrike',
         link3='reg_pol_page.'+'prisilni_pristup',
+        link4='reg_pol_page.'+'treniranje_modela',
         title='metrike',
     )
 
@@ -104,11 +115,6 @@ def metrike():
 # 2.3
 @reg_pol_page.route('/prisilni_pristup')
 def prisilni_pristup():
-
-    min_deg = 1
-    max_deg = 10
-    rmses, min_rmse, min_deg = rmses_deg_from_range(min_deg, max_deg)
-    degrees = range(1, 10)
 
     fig = plt.figure()
     ax = fig.add_subplot(111)
@@ -132,7 +138,35 @@ def prisilni_pristup():
         link1='reg_pol_page.'+'izgled_regresije_pol',
         link2='reg_pol_page.'+'metrike',
         link3='reg_pol_page.'+'prisilni_pristup',
+        link4='reg_pol_page.'+'treniranje_modela',
         title='prisilni pristup',
         image=image,
         imageText=imageText
+    )
+
+
+# 2.4
+@reg_pol_page.route('/treniranje_modela')
+def treniranje_modela():
+    poly_reg = PolynomialFeatures(degree=min_deg)
+    x_poly = poly_reg.fit_transform(x.to_numpy().reshape(-1, 1))
+    lr = linear_model.LinearRegression(
+        fit_intercept=True, normalize=False, copy_X=True)
+    lr.fit(x_poly, y)
+    y_predict = lr.predict(x_poly)
+
+    df = pd.DataFrame({'Prave vrijednosti': y, 'Procjene': y_predict})
+
+    json_list = json.loads(json.dumps(
+        list(df.head(14).T.to_dict().values())))
+
+    return render_template(
+        'table.html',
+        link1='reg_pol_page.'+'izgled_regresije_pol',
+        link2='reg_pol_page.'+'metrike',
+        link3='reg_pol_page.'+'prisilni_pristup',
+        link4='reg_pol_page.'+'treniranje_modela',
+        tables=json_list,
+        title='treniranje modela tablica',
+        switch=2,
     )
