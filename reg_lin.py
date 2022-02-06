@@ -143,8 +143,8 @@ def gradient_descen():
         link5=sp+grad_spust_links[4],
         button1='Alcohol Distribution',
         title='gradient descent',
-        rows=theta[0].round(2),
-        columns=theta[1].round(2))
+        value1=theta[0].round(2),
+        value2=theta[1].round(2))
 
 
 # 1.1.4
