@@ -69,6 +69,7 @@ def izgled_regresije_pol():
         'info.html',
         link1='reg_pol_page.'+'izgled_regresije_pol',
         link2='reg_pol_page.'+'metrike',
+        link3='reg_pol_page.'+'prisilni_pristup',
         title='polynomial regression',
         image=image
     )
@@ -95,6 +96,43 @@ def metrike():
         value4=r2_square.round(4),
         link1='reg_pol_page.'+'izgled_regresije_pol',
         link2='reg_pol_page.'+'metrike',
+        link3='reg_pol_page.'+'prisilni_pristup',
         title='metrike',
+    )
 
+
+# 2.3
+@reg_pol_page.route('/prisilni_pristup')
+def prisilni_pristup():
+
+    min_deg = 1
+    max_deg = 10
+    rmses, min_rmse, min_deg = rmses_deg_from_range(min_deg, max_deg)
+    degrees = range(1, 10)
+
+    fig = plt.figure()
+    ax = fig.add_subplot(111)
+    ax.plot(degrees, rmses)
+    ax.set_yscale('log')
+    ax.set_xlabel('Degree')
+    ax.set_ylabel('RMSE')
+
+    file_exists = os.path.exists('static/images/rmse_degree.png')
+
+    if file_exists:
+        image = os.path.join('static/images/rmse_degree.png')
+    else:
+        fig.savefig('static/images/rmse_degree.png')
+
+    imageText = 'Best degree {} with RMSE {}'.format(
+        min_deg, min_rmse.round(4))
+
+    return render_template(
+        'info.html',
+        link1='reg_pol_page.'+'izgled_regresije_pol',
+        link2='reg_pol_page.'+'metrike',
+        link3='reg_pol_page.'+'prisilni_pristup',
+        title='prisilni pristup',
+        image=image,
+        imageText=imageText
     )

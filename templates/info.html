@@ -28,6 +28,10 @@
     grid-column: 4;
     text-align: right;
   }
+  .bigger-font {
+    font-size: 250%;
+    margin-top: 1cm;
+  }
 </style>
 
 {% extends "base.html" %} {% block content %}
@@ -110,6 +114,10 @@
       {% elif image %}
       <div class="img-container">
         <img src="{{image}}" alt="Chart" />
+        <br />
+        <div class="bigger-font">
+          {% if imageText %} {{imageText}} {% endif %}
+        </div>
       </div>
       {% else %} {% endif %}
     </div>

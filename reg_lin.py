@@ -97,7 +97,8 @@ def distribution_alcohol():
         link4=sp+grad_spust_links[3],
         link5=sp+grad_spust_links[4],
         title='distribution alcohol',
-        image=image)
+        image=image
+    )
 
 
 # 1.1.2
