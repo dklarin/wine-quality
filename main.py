@@ -11,12 +11,12 @@ import os.path
 
 from methods import *
 
-from regression_linear import simple_page
+from reg_lin import reg_lin_page
 from reg_pol import reg_pol_page
 
 app = Flask(__name__)
 bootstrap = Bootstrap(app)
-app.register_blueprint(simple_page)
+app.register_blueprint(reg_lin_page)
 app.register_blueprint(reg_pol_page)
 
 

@@ -24,19 +24,19 @@ def show(page):
 
 
 # 2
-@reg_pol_page.route('/polynomial_regression')
-def polynomial_regression():
+@reg_pol_page.route('/regression_polynomial')
+def regression_polynomial():
 
     return render_template(
         'info.html',
-        link1='reg_pol_page.'+'vengaboys',
+        link1='reg_pol_page.'+'izgled_regresije_pol',
         link2='index',
         title='polynomial regression')
 
 
 # 2.1
-@reg_pol_page.route('/vengaboys')
-def vengaboys():
+@reg_pol_page.route('/izgled_regresije_pol')
+def izgled_regresije_pol():
 
     poly_reg = PolynomialFeatures(degree=4)
     x_poly = poly_reg.fit_transform(x.to_numpy().reshape(-1, 1))
@@ -66,7 +66,7 @@ def vengaboys():
 
     return render_template(
         'info.html',
-        link1='reg_pol_page.'+'vengaboys',
+        link1='reg_pol_page.'+'izgled_regresije_pol',
         link2='index',
         title='polynomial regression',
         image=image

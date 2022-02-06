@@ -4,15 +4,15 @@ from methods import *
 import os.path
 import pandas as pd
 
-simple_page = Blueprint('simple_page', __name__,
-                        template_folder='templates')
+reg_lin_page = Blueprint('reg_lin_page', __name__,
+                         template_folder='templates')
 
 lin_reg_links = ['gradijentni_spust', 'unakrsna_validacija']
 
-sp = 'simple_page.'
+sp = 'reg_lin_page.'
 
 grad_spust_links = ['distribution_alcohol', 'distribution_quality',
-                    'gradient_descen', 'funkcija_troska', 'izgled_regresije']
+                    'gradient_descen', 'funkcija_troska', 'izgled_regresije_lin']
 
 data = pd.read_csv("winequality-red.csv")
 x = data['alcohol']
@@ -36,8 +36,8 @@ theta = past_thetas[-1]
 
 
 # 1
-@simple_page.route('/linear_regression')
-def linear_regression():
+@reg_lin_page.route('/regression_linear')
+def regression_linear():
 
     return render_template(
         'info.html',
@@ -47,7 +47,7 @@ def linear_regression():
 
 
 # 1.1
-@simple_page.route('/gradijentni_spust')
+@reg_lin_page.route('/gradijentni_spust')
 def gradijentni_spust():
 
     return render_template(
@@ -62,7 +62,7 @@ def gradijentni_spust():
 
 
 # 1.2
-@simple_page.route('/unakrsna_validacija')
+@reg_lin_page.route('/unakrsna_validacija')
 def unakrsna_validacija():
 
     return render_template(
@@ -74,7 +74,7 @@ def unakrsna_validacija():
 
 
 # 1.1.1
-@simple_page.route('/distribution_alcohol')
+@reg_lin_page.route('/distribution_alcohol')
 def distribution_alcohol():
 
     fig = figax()
@@ -101,7 +101,7 @@ def distribution_alcohol():
 
 
 # 1.1.2
-@simple_page.route('/distribution_quality')
+@reg_lin_page.route('/distribution_quality')
 def distribution_quality():
 
     fig = figax()
@@ -129,7 +129,7 @@ def distribution_quality():
 
 
 # 1.1.3
-@simple_page.route('/gradient_descen')
+@reg_lin_page.route('/gradient_descen')
 def gradient_descen():
 
     return render_template(
@@ -148,7 +148,7 @@ def gradient_descen():
 
 
 # 1.1.4
-@simple_page.route('/funkcija_troska')
+@reg_lin_page.route('/funkcija_troska')
 def funkcija_troska():
 
     fig = figax()
@@ -177,8 +177,8 @@ def funkcija_troska():
 
 
 # 1.1.5
-@simple_page.route('/izgled_regresije')
-def izgled_regresije():
+@reg_lin_page.route('/izgled_regresije_lin')
+def izgled_regresije_lin():
 
     plt.figure(figsize=(10, 6))
     plt.scatter(x_scaled[:, 1], y, color='black')
