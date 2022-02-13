@@ -11,13 +11,15 @@ import os.path
 
 from methods import *
 
-from reg_lin import reg_lin_page
+from reg_lin_gra_spu import reg_lin_page
+from reg_lin_una_val import reg_lin_una_val_page
 from reg_pol import reg_pol_page
 
 app = Flask(__name__)
 bootstrap = Bootstrap(app)
 app.register_blueprint(reg_lin_page)
 app.register_blueprint(reg_pol_page)
+app.register_blueprint(reg_lin_una_val_page)
 
 
 data = pd.read_csv("winequality-red.csv")
@@ -37,11 +39,17 @@ def reverse_filter(s):
 def reverse_filter(s):
     if (s.find('.') != -1):
         st = s.split(".")
+        print(st)
         st = st[1].split("_")
+        print(st)
     else:
         st = s.split("_")
     if len(st) < 2:
         return st[0]
+    elif len(st) == 3:
+        return st[2]
+    elif len(st) == 4:
+        return st[2]+' '+st[3]
     else:
         return st[0]+' '+st[1]
 

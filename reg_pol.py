@@ -33,6 +33,8 @@ max_deg = 10
 rmses, min_rmse, min_deg = rmses_deg_from_range(min_deg, max_deg)
 degrees = range(1, 10)
 
+# Treniranje modela
+
 
 @reg_pol_page.route('/', defaults={'page': 'index'})
 @reg_pol_page.route('/<page>')
@@ -49,16 +51,17 @@ def regression_polynomial():
 
     return render_template(
         'info.html',
-        link1=sp+'izgled_regresije_pol',
-        link2=sp+'metrike',
+        link1=sp+'reg_pol_izgled_regresije',
+        link2=sp+'reg_pol_metrike',
         link3=sp+'prisilni_pristup',
         link4=sp+'treniranje_modela',
+        link5=sp+'izgled_modela',
         title='polynomial regression')
 
 
 # 2.1
-@reg_pol_page.route('/izgled_regresije_pol')
-def izgled_regresije_pol():
+@reg_pol_page.route('/reg_pol_izgled_regresije')
+def reg_pol_izgled_regresije():
 
     X_grid = np.arange(min(x), max(x), 0.1)
     X_grid = X_grid.reshape((len(X_grid), 1))
@@ -79,18 +82,19 @@ def izgled_regresije_pol():
 
     return render_template(
         'info.html',
-        link1=sp+'izgled_regresije_pol',
-        link2=sp+'metrike',
+        link1=sp+'reg_pol_izgled_regresije',
+        link2=sp+'reg_pol_metrike',
         link3=sp+'prisilni_pristup',
         link4=sp+'treniranje_modela',
+        link5=sp+'izgled_modela',
         title='polynomial regression',
         image=image
     )
 
 
 # 2.2
-@reg_pol_page.route('/metrike')
-def metrike():
+@reg_pol_page.route('/reg_pol_metrike')
+def reg_pol_metrike():
 
     mae = metrics.mean_absolute_error(y, y_predict)
     mse = metrics.mean_squared_error(y, y_predict)
@@ -107,10 +111,11 @@ def metrike():
         value2=mse.round(4),
         value3=rmse.round(4),
         value4=r2_square.round(4),
-        link1=sp+'izgled_regresije_pol',
-        link2=sp+'metrike',
+        link1=sp+'reg_pol_izgled_regresije',
+        link2=sp+'reg_pol_metrike',
         link3=sp+'prisilni_pristup',
         link4=sp+'treniranje_modela',
+        link5=sp+'izgled_modela',
         title='metrike',
     )
 
@@ -138,10 +143,11 @@ def prisilni_pristup():
 
     return render_template(
         'info.html',
-        link1=sp+'izgled_regresije_pol',
-        link2=sp+'metrike',
+        link1=sp+'reg_pol_izgled_regresije',
+        link2=sp+'reg_pol_metrike',
         link3=sp+'prisilni_pristup',
         link4=sp+'treniranje_modela',
+        link5=sp+'izgled_modela',
         title='prisilni pristup',
         image=image,
         imageText=imageText
@@ -151,6 +157,7 @@ def prisilni_pristup():
 # 2.4
 @reg_pol_page.route('/treniranje_modela')
 def treniranje_modela():
+
     poly_reg = PolynomialFeatures(degree=min_deg)
     x_poly = poly_reg.fit_transform(x.to_numpy().reshape(-1, 1))
     lr = linear_model.LinearRegression(
@@ -165,11 +172,53 @@ def treniranje_modela():
 
     return render_template(
         'table.html',
-        link1=sp+'izgled_regresije_pol',
-        link2=sp+'metrike',
+        link1=sp+'reg_pol_izgled_regresije',
+        link2=sp+'reg_pol_metrike',
         link3=sp+'prisilni_pristup',
         link4=sp+'treniranje_modela',
+        link5=sp+'izgled_modela',
         tables=json_list,
         title='treniranje modela tablica',
+        switch=2,
+    )
+
+
+# 2.5
+@reg_pol_page.route('/izgled_modela')
+def izgled_modela():
+
+    poly_reg = PolynomialFeatures(degree=min_deg)
+    x_poly = poly_reg.fit_transform(x.to_numpy().reshape(-1, 1))
+    lr = linear_model.LinearRegression(
+        fit_intercept=True, normalize=False, copy_X=True)
+    lr.fit(x_poly, y)
+    y_predict = lr.predict(x_poly)
+
+    X_grid = np.arange(min(x), max(x), 0.1)
+    X_grid = X_grid.reshape((len(X_grid), 1))
+    plt.scatter(x, y, color='red')
+    plt.scatter(x, y_predict, color='green')
+    plt.plot(X_grid, lr.predict(poly_reg.fit_transform(X_grid)), color='black')
+    plt.title('Polynomial Regression')
+    plt.xlabel('pH level')
+    plt.ylabel('Quality')
+    # plt.show()
+
+    file_exists = os.path.exists('static/images/izgled_modela.png')
+
+    if file_exists:
+        image = os.path.join('static/images/izgled_modela.png')
+    else:
+        plt.savefig('static/images/izgled_modela.png')
+
+    return render_template(
+        'info.html',
+        link1=sp+'reg_pol_izgled_regresije',
+        link2=sp+'reg_pol_metrike',
+        link3=sp+'prisilni_pristup',
+        link4=sp+'treniranje_modela',
+        link5=sp+'izgled_modela',
+        title='izgled treniranog modela',
+        image=image,
         switch=2,
     )

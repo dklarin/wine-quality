@@ -1,6 +1,39 @@
-<style type="text/css"></style>
-
 {% extends "base.html" %} {% block content %}
+<style type="text/css">
+  .grid-container {
+    display: grid;
+  }
+
+  .grid-container-2 {
+    display: grid;
+    grid-template-columns: 3fr 1fr 1.5fr 1.5fr 1fr 3fr;
+    font-size: 250%;
+  }
+
+  .grid-item-1 {
+    grid-column: 3;
+    text-align: left;
+  }
+  .grid-item-2 {
+    grid-column: 4;
+    text-align: right;
+  }
+
+  .img-container {
+    text-align: center;
+    margin-top: 1cm;
+  }
+
+  .bigger-font {
+    font-size: 350%;
+    margin-top: 1cm;
+  }
+
+  .button-font {
+    margin-left: 1cm;
+    text-align: left;
+  }
+</style>
 
 <div class="container-fluid text-left">
   <div class="row">
@@ -12,7 +45,7 @@
           role="button"
           aria-disabled="true"
         >
-          {{link1 | tocka | title }}</a
+          <div class="button-font">{{link1 | tocka | title }}</div></a
         >
         <a
           href="{{ url_for(link2, _external=True) }}"
@@ -20,7 +53,7 @@
           role="button"
           aria-disabled="true"
         >
-          {{link2 | tocka | title }}</a
+          <div class="button-font">{{link2 | tocka | title }}</div></a
         >
         {% if link3 %}
         <a
@@ -29,7 +62,7 @@
           role="button"
           aria-disabled="true"
         >
-          {{link3 | tocka | title }}</a
+          <div class="button-font">{{link3 | tocka | title }}</div></a
         >
         {% else %} {% endif %} {% if link4 %}
         <a
@@ -38,7 +71,7 @@
           role="button"
           aria-disabled="true"
         >
-          {{link4 | tocka | title }}</a
+          <div class="button-font">{{link4 | tocka | title }}</div></a
         >
         {% else %} {% endif %} {% if link5 %}
         <a
@@ -47,7 +80,7 @@
           role="button"
           aria-disabled="true"
         >
-          {{link5 | tocka | title }}</a
+          <div class="button-font">{{link5 | tocka | title }}</div></a
         >
         {% else %} {% endif %}
       </div>
@@ -81,9 +114,7 @@
       <div class="img-container">
         <img src="{{image}}" alt="Chart" />
         <br />
-        <div class="bigger-font">
-          {% if imageText %} {{imageText}} {% endif %}
-        </div>
+        <h2>{% if imageText %} {{imageText | capitalize}} {% endif %}</h2>
       </div>
       {% else %} {% endif %}
     </div>

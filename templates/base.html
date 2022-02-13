@@ -8,11 +8,12 @@
     <title>{% block title %}{% endblock %}</title>
 
     <link rel="stylesheet" href="/static/css/bootstrap.solar.min.css" />
-    <link rel="stylesheet" href="/static/css/original.css" />
     <link
       rel="stylesheet"
+      type="text/css"
       href="{{ url_for('static', filename='css/main.css') }}"
     />
+    <link rel="stylesheet" href="/static/css/original.css" />
   </head>
 
   <body>

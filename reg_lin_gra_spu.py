@@ -12,7 +12,7 @@ lin_reg_links = ['gradijentni_spust', 'unakrsna_validacija']
 sp = 'reg_lin_page.'
 
 grad_spust_links = ['distribution_alcohol', 'distribution_quality',
-                    'gradient_descen', 'funkcija_troska', 'izgled_regresije_lin']
+                    'gradient_descen', 'funkcija_troska', 'reg_lin_izgled_regresije']
 
 data = pd.read_csv("winequality-red.csv")
 x = data['alcohol']
@@ -67,8 +67,9 @@ def unakrsna_validacija():
 
     return render_template(
         'info.html',
-        link1='simple_page.gradijentni_spust',
-        link2='simple_page.unakrsna_validacija',
+        link1='reg_lin_una_val_page.reg_lin_metrike',
+        link2='reg_lin_una_val_page.reg_lin_metrike',
+        link3='reg_lin_una_val_page.reg_lin_metrike',
         title='unakrsna validacija'
     )
 
@@ -178,8 +179,8 @@ def funkcija_troska():
 
 
 # 1.1.5
-@reg_lin_page.route('/izgled_regresije_lin')
-def izgled_regresije_lin():
+@reg_lin_page.route('/reg_lin_izgled_regresije')
+def reg_lin_izgled_regresije():
 
     plt.figure(figsize=(10, 6))
     plt.scatter(x_scaled[:, 1], y, color='black')

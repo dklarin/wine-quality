@@ -21,7 +21,7 @@
 
 .grid-item-1 {
   grid-column: 3;
-  text-align: left;
+  text-align: right;
 }
 .grid-item-2 {
   grid-column: 4;
