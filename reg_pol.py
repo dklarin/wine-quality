@@ -7,15 +7,16 @@ import pandas as pd
 from methods import *
 import os.path
 import json
+from data_read import *
+from reg_pol_methods import *
 
 reg_pol_page = Blueprint('reg_pol_page', __name__,
                          template_folder='templates')
 
 sp = 'reg_pol_page.'
 
-data = pd.read_csv("winequality-red.csv")
-x = data['pH']
-y = data['quality']
+reg_pol_links = ['reg_pol_izgled_regresije', 'reg_pol_metrike',
+                 'prisilni_pristup', 'treniranje_modela', 'izgled_modela']
 
 # Početak
 poly_reg = PolynomialFeatures(degree=4)
@@ -27,22 +28,14 @@ lr = linear_model.LinearRegression(
 lr.fit(x_poly, y)
 y_predict = lr.predict(x_poly)
 
-# Prisilni pristup
-min_deg = 1
-max_deg = 10
-rmses, min_rmse, min_deg = rmses_deg_from_range(min_deg, max_deg)
-degrees = range(1, 10)
 
-# Treniranje modela
-
-
-@reg_pol_page.route('/', defaults={'page': 'index'})
+'''@reg_pol_page.route('/', defaults={'page': 'index'})
 @reg_pol_page.route('/<page>')
 def show(page):
     try:
         return render_template(f'pages/{page}.html')
     except TemplateNotFound:
-        abort(404)
+        abort(404)'''
 
 
 # 2
@@ -51,11 +44,11 @@ def regression_polynomial():
 
     return render_template(
         'info.html',
-        link1=sp+'reg_pol_izgled_regresije',
-        link2=sp+'reg_pol_metrike',
-        link3=sp+'prisilni_pristup',
-        link4=sp+'treniranje_modela',
-        link5=sp+'izgled_modela',
+        link1=sp+reg_pol_links[0],
+        link2=sp+reg_pol_links[1],
+        link3=sp+reg_pol_links[2],
+        link4=sp+reg_pol_links[3],
+        link5=sp+reg_pol_links[4],
         title='polynomial regression')
 
 
@@ -63,15 +56,10 @@ def regression_polynomial():
 @reg_pol_page.route('/reg_pol_izgled_regresije')
 def reg_pol_izgled_regresije():
 
-    X_grid = np.arange(min(x), max(x), 0.1)
-    X_grid = X_grid.reshape((len(X_grid), 1))
-    plt.scatter(x, y, color='red')
-    plt.scatter(x, y_predict, color='green')
-    plt.plot(X_grid, lr.predict(poly_reg.fit_transform(X_grid)), color='black')
-    plt.title('Polynomial Regression')
-    plt.xlabel('pH level')
-    plt.ylabel('Quality')
-    # plt.show()
+    x = x_ph()
+    y = y_quality()
+
+    plot(x, y, y_predict, lr)
 
     file_exists = os.path.exists('static/images/polinomijalna_regresija.png')
 
@@ -82,11 +70,11 @@ def reg_pol_izgled_regresije():
 
     return render_template(
         'info.html',
-        link1=sp+'reg_pol_izgled_regresije',
-        link2=sp+'reg_pol_metrike',
-        link3=sp+'prisilni_pristup',
-        link4=sp+'treniranje_modela',
-        link5=sp+'izgled_modela',
+        link1=sp+reg_pol_links[0],
+        link2=sp+reg_pol_links[1],
+        link3=sp+reg_pol_links[2],
+        link4=sp+reg_pol_links[3],
+        link5=sp+reg_pol_links[4],
         title='polynomial regression',
         image=image
     )
@@ -111,11 +99,11 @@ def reg_pol_metrike():
         value2=mse.round(4),
         value3=rmse.round(4),
         value4=r2_square.round(4),
-        link1=sp+'reg_pol_izgled_regresije',
-        link2=sp+'reg_pol_metrike',
-        link3=sp+'prisilni_pristup',
-        link4=sp+'treniranje_modela',
-        link5=sp+'izgled_modela',
+        link1=sp+reg_pol_links[0],
+        link2=sp+reg_pol_links[1],
+        link3=sp+reg_pol_links[2],
+        link4=sp+reg_pol_links[3],
+        link5=sp+reg_pol_links[4],
         title='metrike',
     )
 
@@ -123,6 +111,12 @@ def reg_pol_metrike():
 # 2.3
 @reg_pol_page.route('/prisilni_pristup')
 def prisilni_pristup():
+
+    min_deg = 1
+    max_deg = 10
+    rmses, min_rmse, min_deg = rmses_deg_from_range(x, y, min_deg, max_deg)
+    print(min_deg)
+    degrees = range(1, 10)
 
     fig = plt.figure()
     ax = fig.add_subplot(111)
@@ -143,11 +137,11 @@ def prisilni_pristup():
 
     return render_template(
         'info.html',
-        link1=sp+'reg_pol_izgled_regresije',
-        link2=sp+'reg_pol_metrike',
-        link3=sp+'prisilni_pristup',
-        link4=sp+'treniranje_modela',
-        link5=sp+'izgled_modela',
+        link1=sp+reg_pol_links[0],
+        link2=sp+reg_pol_links[1],
+        link3=sp+reg_pol_links[2],
+        link4=sp+reg_pol_links[3],
+        link5=sp+reg_pol_links[4],
         title='prisilni pristup',
         image=image,
         imageText=imageText
@@ -158,12 +152,12 @@ def prisilni_pristup():
 @reg_pol_page.route('/treniranje_modela')
 def treniranje_modela():
 
-    poly_reg = PolynomialFeatures(degree=min_deg)
-    x_poly = poly_reg.fit_transform(x.to_numpy().reshape(-1, 1))
-    lr = linear_model.LinearRegression(
-        fit_intercept=True, normalize=False, copy_X=True)
-    lr.fit(x_poly, y)
-    y_predict = lr.predict(x_poly)
+    min_deg = 1
+    max_deg = 10
+    rmses, min_rmse, min_deg = rmses_deg_from_range(x, y, min_deg, max_deg)
+    print(min_deg)
+
+    y_predict = model_training(x, y, min_deg)
 
     df = pd.DataFrame({'Prave vrijednosti': y, 'Procjene': y_predict})
 
@@ -172,11 +166,11 @@ def treniranje_modela():
 
     return render_template(
         'table.html',
-        link1=sp+'reg_pol_izgled_regresije',
-        link2=sp+'reg_pol_metrike',
-        link3=sp+'prisilni_pristup',
-        link4=sp+'treniranje_modela',
-        link5=sp+'izgled_modela',
+        link1=sp+reg_pol_links[0],
+        link2=sp+reg_pol_links[1],
+        link3=sp+reg_pol_links[2],
+        link4=sp+reg_pol_links[3],
+        link5=sp+reg_pol_links[4],
         tables=json_list,
         title='treniranje modela tablica',
         switch=2,
@@ -187,22 +181,14 @@ def treniranje_modela():
 @reg_pol_page.route('/izgled_modela')
 def izgled_modela():
 
-    poly_reg = PolynomialFeatures(degree=min_deg)
-    x_poly = poly_reg.fit_transform(x.to_numpy().reshape(-1, 1))
-    lr = linear_model.LinearRegression(
-        fit_intercept=True, normalize=False, copy_X=True)
-    lr.fit(x_poly, y)
-    y_predict = lr.predict(x_poly)
+    min_deg = 1
+    max_deg = 10
+    rmses, min_rmse, min_deg = rmses_deg_from_range(x, y, min_deg, max_deg)
+    print(min_deg)
 
-    X_grid = np.arange(min(x), max(x), 0.1)
-    X_grid = X_grid.reshape((len(X_grid), 1))
-    plt.scatter(x, y, color='red')
-    plt.scatter(x, y_predict, color='green')
-    plt.plot(X_grid, lr.predict(poly_reg.fit_transform(X_grid)), color='black')
-    plt.title('Polynomial Regression')
-    plt.xlabel('pH level')
-    plt.ylabel('Quality')
-    # plt.show()
+    y_predict = model_training(x, y, min_deg)
+
+    plot(x, y, y_predict, lr)
 
     file_exists = os.path.exists('static/images/izgled_modela.png')
 
@@ -213,11 +199,11 @@ def izgled_modela():
 
     return render_template(
         'info.html',
-        link1=sp+'reg_pol_izgled_regresije',
-        link2=sp+'reg_pol_metrike',
-        link3=sp+'prisilni_pristup',
-        link4=sp+'treniranje_modela',
-        link5=sp+'izgled_modela',
+        link1=sp+reg_pol_links[0],
+        link2=sp+reg_pol_links[1],
+        link3=sp+reg_pol_links[2],
+        link4=sp+reg_pol_links[3],
+        link5=sp+reg_pol_links[4],
         title='izgled treniranog modela',
         image=image,
         switch=2,

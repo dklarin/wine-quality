@@ -1,18 +1,17 @@
-from flask import Blueprint, render_template, abort
-from jinja2 import TemplateNotFound
+from flask import Blueprint, render_template
 from methods import *
+import numpy as np
 import os.path
 import pandas as pd
+from reg_lin_methods import *
 
-reg_lin_page = Blueprint('reg_lin_page', __name__,
-                         template_folder='templates')
+reg_lin_gra_spu_page = Blueprint('reg_lin_gra_spu_page', __name__,
+                                 template_folder='templates')
 
-lin_reg_links = ['gradijentni_spust', 'unakrsna_validacija']
+sp = 'reg_lin_gra_spu_page.'
 
-sp = 'reg_lin_page.'
-
-grad_spust_links = ['distribution_alcohol', 'distribution_quality',
-                    'gradient_descen', 'funkcija_troska', 'reg_lin_izgled_regresije']
+gra_spu_links = ['distribution_alcohol', 'distribution_quality',
+                 'gradient_descen', 'funkcija_troska', 'reg_lin_izgled_regresije']
 
 data = pd.read_csv("winequality-red.csv")
 x = data['alcohol']
@@ -35,114 +34,61 @@ past_thetas, past_costs = gradient_descent(
 theta = past_thetas[-1]
 
 
-# 1
-@reg_lin_page.route('/regression_linear')
-def regression_linear():
-
-    return render_template(
-        'info.html',
-        link1=sp+lin_reg_links[0],
-        link2=sp+lin_reg_links[1],
-        title='linear regression')
-
-
-# 1.1
-@reg_lin_page.route('/gradijentni_spust')
-def gradijentni_spust():
-
-    return render_template(
-        'info.html',
-        link1=sp+grad_spust_links[0],
-        link2=sp+grad_spust_links[1],
-        link3=sp+grad_spust_links[2],
-        link4=sp+grad_spust_links[3],
-        link5=sp+grad_spust_links[4],
-        title='gradijentni spust'
-    )
-
-
-# 1.2
-@reg_lin_page.route('/unakrsna_validacija')
-def unakrsna_validacija():
-
-    return render_template(
-        'info.html',
-        link1='reg_lin_una_val_page.reg_lin_metrike',
-        link2='reg_lin_una_val_page.reg_lin_metrike',
-        link3='reg_lin_una_val_page.reg_lin_metrike',
-        title='unakrsna validacija'
-    )
-
-
 # 1.1.1
-@reg_lin_page.route('/distribution_alcohol')
+@reg_lin_gra_spu_page.route('/distribution_alcohol')
 def distribution_alcohol():
 
-    fig = figax()
-    plt.hist(x, density=True, bins=30)
-    plt.ylabel('Count')
-    plt.xlabel('alcohol')
+    x_ax = 'alcohol'
+    pic = 'static/images/distr_alcohol.png'
 
-    file_exists = os.path.exists('static/images/distr_alcohol.png')
-
-    if file_exists:
-        image = os.path.join('static/images/distr_alcohol.png')
-    else:
-        fig.savefig('static/images/distr_alcohol.png')
+    image = handle_image(x, x_ax, pic)
 
     return render_template(
         'info.html',
-        link1=sp+grad_spust_links[0],
-        link2=sp+grad_spust_links[1],
-        link3=sp+grad_spust_links[2],
-        link4=sp+grad_spust_links[3],
-        link5=sp+grad_spust_links[4],
+        link1=sp+gra_spu_links[0],
+        link2=sp+gra_spu_links[1],
+        link3=sp+gra_spu_links[2],
+        link4=sp+gra_spu_links[3],
+        link5=sp+gra_spu_links[4],
         title='distribution alcohol',
         image=image
     )
 
 
 # 1.1.2
-@reg_lin_page.route('/distribution_quality')
+@reg_lin_gra_spu_page.route('/distribution_quality')
 def distribution_quality():
 
-    fig = figax()
-    plt.hist(y, density=True, bins=30)
-    plt.ylabel('Count')
-    plt.xlabel('quality')
+    x_ax = 'quality'
+    pic = 'static/images/distr_quality.png'
 
-    file_exists = os.path.exists('static/images/distr_quality.png')
-
-    if file_exists:
-        image = os.path.join('static/images/distr_quality.png')
-    else:
-        fig.savefig('static/images/distr_quality.png')
+    image = handle_image(y, x_ax, pic)
 
     return render_template(
         'info.html',
-        link1=sp+grad_spust_links[0],
-        link2=sp+grad_spust_links[1],
-        link3=sp+grad_spust_links[2],
-        link4=sp+grad_spust_links[3],
-        link5=sp+grad_spust_links[4],
+        link1=sp+gra_spu_links[0],
+        link2=sp+gra_spu_links[1],
+        link3=sp+gra_spu_links[2],
+        link4=sp+gra_spu_links[3],
+        link5=sp+gra_spu_links[4],
         button1='Alcohol Distribution',
         title='distribution quality',
         image=image)
 
 
 # 1.1.3
-@reg_lin_page.route('/gradient_descen')
+@reg_lin_gra_spu_page.route('/gradient_descen')
 def gradient_descen():
 
     return render_template(
         'info.html',
         keyword1='theta 1',
         keyword2='theta 2',
-        link1=sp+grad_spust_links[0],
-        link2=sp+grad_spust_links[1],
-        link3=sp+grad_spust_links[2],
-        link4=sp+grad_spust_links[3],
-        link5=sp+grad_spust_links[4],
+        link1=sp+gra_spu_links[0],
+        link2=sp+gra_spu_links[1],
+        link3=sp+gra_spu_links[2],
+        link4=sp+gra_spu_links[3],
+        link5=sp+gra_spu_links[4],
         button1='Alcohol Distribution',
         title='gradient descent',
         value1=theta[0].round(2),
@@ -150,63 +96,54 @@ def gradient_descen():
 
 
 # 1.1.4
-@reg_lin_page.route('/funkcija_troska')
+@reg_lin_gra_spu_page.route('/funkcija_troska')
 def funkcija_troska():
 
-    fig = figax()
-    plt.title('Cost Function J')
-    plt.xlabel('No. of iterations')
-    plt.ylabel('Cost')
-    plt.plot(past_costs)
+    pic = 'static/images/funkcija_troska.png'
 
-    file_exists = os.path.exists('static/images/funkcija_troska.png')
+    fig = plot(past_costs)
+
+    file_exists = os.path.exists(pic)
 
     if file_exists:
-        image = os.path.join('static/images/funkcija_troska.png')
+        image = os.path.join(pic)
     else:
-        fig.savefig('static/images/funkcija_troska.png')
+        fig.savefig(pic)
 
     return render_template(
         'info.html',
-        link1=sp+grad_spust_links[0],
-        link2=sp+grad_spust_links[1],
-        link3=sp+grad_spust_links[2],
-        link4=sp+grad_spust_links[3],
-        link5=sp+grad_spust_links[4],
+        link1=sp+gra_spu_links[0],
+        link2=sp+gra_spu_links[1],
+        link3=sp+gra_spu_links[2],
+        link4=sp+gra_spu_links[3],
+        link5=sp+gra_spu_links[4],
         button1='Alcohol Distribution',
         title='funkcija troška',
         image=image)
 
 
 # 1.1.5
-@reg_lin_page.route('/reg_lin_izgled_regresije')
+@reg_lin_gra_spu_page.route('/reg_lin_izgled_regresije')
 def reg_lin_izgled_regresije():
 
-    plt.figure(figsize=(10, 6))
-    plt.scatter(x_scaled[:, 1], y, color='black')
-    x = np.linspace(-5, 7.5, 1000)
-    s = theta[1] * x + theta[0]
+    pic = 'static/images/izgled_regresije.png'
 
-    plt.title("our prediction visualization")
-    plt.xlabel('Alcohol percent')
-    plt.ylabel('Quality of wine')
+    plt = plot_regression(x_scaled, y, theta[0], theta[1])
 
-    plt.plot(x, s)
-
-    file_exists = os.path.exists('static/images/izgled_regresije.png')
+    file_exists = os.path.exists(pic)
 
     if file_exists:
-        image = os.path.join('static/images/izgled_regresije.png')
+        image = os.path.join(pic)
     else:
-        plt.savefig('static/images/izgled_regresije.png')
+        plt.savefig(pic)
 
     return render_template(
         'info.html',
-        link1=sp+grad_spust_links[0],
-        link2=sp+grad_spust_links[1],
-        link3=sp+grad_spust_links[2],
-        link4=sp+grad_spust_links[3],
-        link5=sp+grad_spust_links[4],
+        link1=sp+gra_spu_links[0],
+        link2=sp+gra_spu_links[1],
+        link3=sp+gra_spu_links[2],
+        link4=sp+gra_spu_links[3],
+        link5=sp+gra_spu_links[4],
         button1='Alcohol Distribution',
         title='izgled regresije',
         image=image)
