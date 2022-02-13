@@ -42,7 +42,7 @@
           role="button"
           aria-disabled="true"
         >
-          {{link1 | capitalize}}</a
+        {{link1 | tocka | title }}</a
         >
         <a
           href="{{ url_for(link2, _external=True) }}"
@@ -50,16 +50,27 @@
           role="button"
           aria-disabled="true"
         >
-          {{link2 | capitalize}}</a
+        {{link2 | tocka | title }}</a
         >
+        {% if link3 %}
         <a
           href="{{ url_for(link3, _external=True) }}"
           class="btn btn-primary btn-lg"
           role="button"
           aria-disabled="true"
         >
-          {{link3 | capitalize}}</a
+        {{link3 | tocka | title }}</a
         >
+        {% else %} {% endif %} {% if link4 %}
+        <a
+          href="{{ url_for(link4, _external=True) }}"
+          class="btn btn-primary btn-lg"
+          role="button"
+          aria-disabled="true"
+        >
+          {{link4 | tocka | title }}</a
+        >
+        {% else %} {% endif %}
       </div>
     </div>
     <div class="col-md-8 text-center">
@@ -189,7 +200,6 @@
 
   <div class="row">
     <div class="col-md-2 sidenav"></div>
-
     <div class="col-md-8 text-center">
       <div class="grid-container-2">
         <div class="grid-item-12">
@@ -200,8 +210,7 @@
                   <tr>
                    {% if switch == 2 %}
                       <th>Prave vrijednosti</th>
-                      <th>Procjene</th>
-                
+                      <th>Procjene</th>                
                   </tr>
                 </thead>
                 <tbody>
@@ -211,8 +220,7 @@
                       <td>{{table['Procjene']}}</td>
                       {% endfor %}
                       {% endif %}
-                  </tr>
-             
+                  </tr>             
                 </tbody>
               </table>
             </ul>

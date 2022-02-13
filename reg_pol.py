@@ -11,6 +11,8 @@ import json
 reg_pol_page = Blueprint('reg_pol_page', __name__,
                          template_folder='templates')
 
+sp = 'reg_pol_page.'
+
 data = pd.read_csv("winequality-red.csv")
 x = data['pH']
 y = data['quality']
@@ -47,9 +49,10 @@ def regression_polynomial():
 
     return render_template(
         'info.html',
-        link1='reg_pol_page.'+'izgled_regresije_pol',
-        link2='reg_pol_page.'+'metrike',
-        link3='reg_pol_page.'+'prisilni_pristup',
+        link1=sp+'izgled_regresije_pol',
+        link2=sp+'metrike',
+        link3=sp+'prisilni_pristup',
+        link4=sp+'treniranje_modela',
         title='polynomial regression')
 
 
@@ -76,10 +79,10 @@ def izgled_regresije_pol():
 
     return render_template(
         'info.html',
-        link1='reg_pol_page.'+'izgled_regresije_pol',
-        link2='reg_pol_page.'+'metrike',
-        link3='reg_pol_page.'+'prisilni_pristup',
-        link4='reg_pol_page.'+'treniranje_modela',
+        link1=sp+'izgled_regresije_pol',
+        link2=sp+'metrike',
+        link3=sp+'prisilni_pristup',
+        link4=sp+'treniranje_modela',
         title='polynomial regression',
         image=image
     )
@@ -104,10 +107,10 @@ def metrike():
         value2=mse.round(4),
         value3=rmse.round(4),
         value4=r2_square.round(4),
-        link1='reg_pol_page.'+'izgled_regresije_pol',
-        link2='reg_pol_page.'+'metrike',
-        link3='reg_pol_page.'+'prisilni_pristup',
-        link4='reg_pol_page.'+'treniranje_modela',
+        link1=sp+'izgled_regresije_pol',
+        link2=sp+'metrike',
+        link3=sp+'prisilni_pristup',
+        link4=sp+'treniranje_modela',
         title='metrike',
     )
 
@@ -135,10 +138,10 @@ def prisilni_pristup():
 
     return render_template(
         'info.html',
-        link1='reg_pol_page.'+'izgled_regresije_pol',
-        link2='reg_pol_page.'+'metrike',
-        link3='reg_pol_page.'+'prisilni_pristup',
-        link4='reg_pol_page.'+'treniranje_modela',
+        link1=sp+'izgled_regresije_pol',
+        link2=sp+'metrike',
+        link3=sp+'prisilni_pristup',
+        link4=sp+'treniranje_modela',
         title='prisilni pristup',
         image=image,
         imageText=imageText
@@ -162,10 +165,10 @@ def treniranje_modela():
 
     return render_template(
         'table.html',
-        link1='reg_pol_page.'+'izgled_regresije_pol',
-        link2='reg_pol_page.'+'metrike',
-        link3='reg_pol_page.'+'prisilni_pristup',
-        link4='reg_pol_page.'+'treniranje_modela',
+        link1=sp+'izgled_regresije_pol',
+        link2=sp+'metrike',
+        link3=sp+'prisilni_pristup',
+        link4=sp+'treniranje_modela',
         tables=json_list,
         title='treniranje modela tablica',
         switch=2,
