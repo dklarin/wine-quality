@@ -41,9 +41,7 @@ def reverse_filter(s):
 def reverse_filter(s):
     if (s.find('.') != -1):
         st = s.split(".")
-        print(st)
         st = st[1].split("_")
-        print(st)
     else:
         st = s.split("_")
     if len(st) < 2:

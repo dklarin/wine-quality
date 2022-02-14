@@ -3,6 +3,21 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
+# izracun_gradijentnog spusta
+def gradient_descent(x, y, theta, iterations, alpha):
+    past_costs = []
+    past_thetas = [theta]
+    for i in range(iterations):
+        prediction = np.dot(x, theta)
+        error = prediction - y
+        cost = 1/(2*y.size) * np.dot(error.T, error)
+        past_costs.append(cost)
+        theta = theta - (alpha * (1/y.size) * np.dot(x.T, error))
+        past_thetas.append(theta)
+
+    return past_thetas, past_costs
+
+
 # distribution_alcohol
 # distribution_quality
 def histogram(x, x_ax):
@@ -25,26 +40,39 @@ def plot(past_costs):
 
 # reg_lin_izgled_regresije
 def plot_regression(x_scaled, y, theta_0, theta_1):
-    fig, ax = plt.subplots()
     plt.figure(figsize=(10, 6))
     plt.scatter(x_scaled[:, 1], y, color='black')
     x = np.linspace(-5, 20, 1000)
     y = theta_1 * x + theta_0
+    plt.plot(x, y)
     plt.title('Prediction visualization')
     plt.xlabel('Alcohol percent')
     plt.ylabel('Quality of wine')
-    plt.plot(x, y)
-    return fig
+    return plt
+
 
 # distribution_alcohol
 # distribution_quality
-
-
-def handle_image(x, x_ax, pic):
-    fig = histogram(x, x_ax)
+# funkcija_troska
+def handle_image(x, x_ax, pic, visual, past_costs):
+    if visual == 'hist':
+        fig = histogram(x, x_ax)
+    else:
+        fig = plot(past_costs)
     file_exists = os.path.exists(pic)
     if file_exists:
         image = os.path.join(pic)
         return image
     else:
         fig.savefig(pic)
+
+
+# reg_lin_izgled_regresije
+def handle_image_reg(x_scaled, y, theta_0, theta_1, pic):
+    plt = plot_regression(x_scaled, y, theta_0, theta_1)
+    file_exists = os.path.exists(pic)
+    if file_exists:
+        image = os.path.join(pic)
+        return image
+    else:
+        plt.savefig(pic)

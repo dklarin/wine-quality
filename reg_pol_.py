@@ -1,19 +1,14 @@
-import numpy as np
-from reg_pol_methods import *
-from data_read import *
-import json
-import os.path
-import pandas as pd
-from sklearn import linear_model, metrics
-from sklearn.preprocessing import PolynomialFeatures
-import matplotlib.pyplot as plt
 from ast import keyword
 from flask import Blueprint, render_template, abort
 from jinja2 import TemplateNotFound
-
-import matplotlib
-matplotlib.use('Agg')
-# from methods import *
+from sklearn.preprocessing import PolynomialFeatures
+from sklearn import linear_model, metrics
+import pandas as pd
+#from methods import *
+import os.path
+import json
+from data_read import *
+from reg_pol_methods import *
 
 reg_pol_page = Blueprint('reg_pol_page', __name__,
                          template_folder='templates')
@@ -23,6 +18,27 @@ sp = 'reg_pol_page.'
 reg_pol_links = ['reg_pol_izgled_regresije', 'reg_pol_metrike',
                  'prisilni_pristup', 'treniranje_modela', 'izgled_modela']
 
+data = pd.read_csv("winequality-red.csv")
+
+x = data['pH']
+y = data['quality']
+
+
+def plot(x, y, y_pred, lin_reg):
+
+    X_grid = np.arange(min(x), max(x), 0.1)
+    X_grid = X_grid.reshape((len(X_grid), 1))
+    plt.scatter(x, y, color='red')
+    plt.scatter(x, y_pred, color='green')
+    plt.plot(X_grid, lin_reg.predict(
+        poly_reg.fit_transform(X_grid)), color='black')
+    plt.title('Polynomial Regression')
+    plt.xlabel('pH level')
+    plt.ylabel('Quality')
+
+
+# Prisilni pristup
+
 
 '''@reg_pol_page.route('/', defaults={'page': 'index'})
 @reg_pol_page.route('/<page>')
@@ -31,10 +47,6 @@ def show(page):
         return render_template(f'pages/{page}.html')
     except TemplateNotFound:
         abort(404)'''
-
-
-x = x_ph()
-y = y_quality()
 
 
 # 2
@@ -58,20 +70,18 @@ def reg_pol_izgled_regresije():
     poly_reg = PolynomialFeatures(degree=4)
     x_poly = poly_reg.fit_transform(x.to_numpy().reshape(-1, 1))
     lr = linear_model.LinearRegression(
-        fit_intercept=True, copy_X=True)
+        fit_intercept=True, normalize=False, copy_X=True)
     lr.fit(x_poly, y)
     y_predict = lr.predict(x_poly)
 
-    plt = plot(x, y, y_predict, lr, 4)
+    plot(x, y, y_predict, lr)
 
     file_exists = os.path.exists('static/images/polinomijalna_regresija.png')
 
     if file_exists:
         image = os.path.join('static/images/polinomijalna_regresija.png')
     else:
-
         plt.savefig('static/images/polinomijalna_regresija.png')
-        image = os.path.join('static/images/broken_page.png')
 
     return render_template(
         'info.html',
@@ -92,7 +102,7 @@ def reg_pol_metrike():
     poly_reg = PolynomialFeatures(degree=4)
     x_poly = poly_reg.fit_transform(x.to_numpy().reshape(-1, 1))
     lr = linear_model.LinearRegression(
-        fit_intercept=True, copy_X=True)
+        fit_intercept=True, normalize=False, copy_X=True)
     lr.fit(x_poly, y)
     y_predict = lr.predict(x_poly)
 
@@ -126,7 +136,7 @@ def prisilni_pristup():
 
     min_deg = 1
     max_deg = 10
-    rmses, min_rmse, min_deg = rmses_deg_from_range(x, y, min_deg, max_deg)
+    rmses, min_rmse, min_deg = rmses_deg_from_range(min_deg, max_deg)
     degrees = range(1, 10)
 
     fig = plt.figure()
@@ -166,17 +176,8 @@ def treniranje_modela():
     min_deg = 1
     max_deg = 10
     rmses, min_rmse, min_deg = rmses_deg_from_range(x, y, min_deg, max_deg)
-    degrees = range(1, 10)
 
-    poly_reg = PolynomialFeatures(degree=min_deg)
-    x_poly = poly_reg.fit_transform(x.to_numpy().reshape(-1, 1))
-
-    lr = linear_model.LinearRegression(
-        fit_intercept=True, copy_X=True)
-
-    lr.fit(x_poly, y)
-
-    y_predict = lr.predict(x_poly)
+    y_predict = model_training(x, y, min_deg)
 
     df = pd.DataFrame({'Prave vrijednosti': y, 'Procjene': y_predict})
 
@@ -204,23 +205,16 @@ def izgled_modela():
     max_deg = 10
     rmses, min_rmse, min_deg = rmses_deg_from_range(x, y, min_deg, max_deg)
 
-    poly_reg = PolynomialFeatures(degree=min_deg)
-    x_poly = poly_reg.fit_transform(x.to_numpy().reshape(-1, 1))
-    lr = linear_model.LinearRegression(
-        fit_intercept=True, copy_X=True)
-
-    lr.fit(x_poly, y)
-    y_predict = lr.predict(x_poly)
-
-    file_exists = os.path.exists('static/images/izgled_modela.png')
+    y_predict = model_training(x, y, min_deg)
 
     plt = plot(x, y, y_predict, lr, min_deg)
+
+    file_exists = os.path.exists('static/images/izgled_modela.png')
 
     if file_exists:
         image = os.path.join('static/images/izgled_modela.png')
     else:
         plt.savefig('static/images/izgled_modela.png')
-        image = os.path.join('static/images/broken_page.png')
 
     return render_template(
         'info.html',

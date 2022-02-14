@@ -1,9 +1,10 @@
 from flask import Blueprint, render_template
-from methods import *
+#from methods import *
 import numpy as np
 import os.path
 import pandas as pd
 from reg_lin_methods import *
+from data_read import *
 
 reg_lin_gra_spu_page = Blueprint('reg_lin_gra_spu_page', __name__,
                                  template_folder='templates')
@@ -13,9 +14,8 @@ sp = 'reg_lin_gra_spu_page.'
 gra_spu_links = ['distribution_alcohol', 'distribution_quality',
                  'gradient_descen', 'funkcija_troska', 'reg_lin_izgled_regresije']
 
-data = pd.read_csv("winequality-red.csv")
-x = data['alcohol']
-y = data['quality']
+x = x_alcohol()
+y = y_quality()
 
 # Skaliranje podataka
 x_scaled = (x - x.mean()) / x.std()
@@ -39,9 +39,9 @@ theta = past_thetas[-1]
 def distribution_alcohol():
 
     x_ax = 'alcohol'
-    pic = 'static/images/distr_alcohol.png'
+    pic = 'static/images/rlgs_distr_alcohol.png'
 
-    image = handle_image(x, x_ax, pic)
+    image = handle_image(x, x_ax, pic, 'hist', 0)
 
     return render_template(
         'info.html',
@@ -60,9 +60,9 @@ def distribution_alcohol():
 def distribution_quality():
 
     x_ax = 'quality'
-    pic = 'static/images/distr_quality.png'
+    pic = 'static/images/rlgs_distr_quality.png'
 
-    image = handle_image(y, x_ax, pic)
+    image = handle_image(y, x_ax, pic, 'hist', 0)
 
     return render_template(
         'info.html',
@@ -99,16 +99,9 @@ def gradient_descen():
 @reg_lin_gra_spu_page.route('/funkcija_troska')
 def funkcija_troska():
 
-    pic = 'static/images/funkcija_troska.png'
+    pic = 'static/images/rlgs_funkcija_troska.png'
 
-    fig = plot(past_costs)
-
-    file_exists = os.path.exists(pic)
-
-    if file_exists:
-        image = os.path.join(pic)
-    else:
-        fig.savefig(pic)
+    image = handle_image(0, 0, pic, 'plot', past_costs)
 
     return render_template(
         'info.html',
@@ -128,14 +121,7 @@ def reg_lin_izgled_regresije():
 
     pic = 'static/images/izgled_regresije.png'
 
-    plt = plot_regression(x_scaled, y, theta[0], theta[1])
-
-    file_exists = os.path.exists(pic)
-
-    if file_exists:
-        image = os.path.join(pic)
-    else:
-        plt.savefig(pic)
+    image = handle_image_reg(x_scaled, y, theta[0], theta[1], pic)
 
     return render_template(
         'info.html',
