@@ -62,16 +62,28 @@ def reg_pol_izgled_regresije():
     lr.fit(x_poly, y)
     y_predict = lr.predict(x_poly)
 
-    plt = plot(x, y, y_predict, lr, 4)
+    X_grid = np.arange(min(x), max(x), 0.1)
+    X_grid = X_grid.reshape((len(X_grid), 1))
+    plt.scatter(x, y, color='red')
+    plt.scatter(x, y_predict, color='green')
+
+    plt.title('Polynomial Regression')
+    plt.xlabel('pH level')
+    plt.ylabel('Quality')
+
+    plt.plot(X_grid, lr.predict(
+        poly_reg.fit_transform(X_grid)), color='black')
 
     file_exists = os.path.exists('static/images/polinomijalna_regresija.png')
 
     if file_exists:
         image = os.path.join('static/images/polinomijalna_regresija.png')
     else:
-
         plt.savefig('static/images/polinomijalna_regresija.png')
         image = os.path.join('static/images/broken_page.png')
+        plt.clf()
+        plt.cla()
+        plt.close()
 
     return render_template(
         'info.html',
@@ -163,20 +175,9 @@ def prisilni_pristup():
 @reg_pol_page.route('/treniranje_modela')
 def treniranje_modela():
 
-    min_deg = 1
-    max_deg = 10
-    rmses, min_rmse, min_deg = rmses_deg_from_range(x, y, min_deg, max_deg)
-    degrees = range(1, 10)
+    y_predict = y_pred_9()
 
-    poly_reg = PolynomialFeatures(degree=min_deg)
-    x_poly = poly_reg.fit_transform(x.to_numpy().reshape(-1, 1))
-
-    lr = linear_model.LinearRegression(
-        fit_intercept=True, copy_X=True)
-
-    lr.fit(x_poly, y)
-
-    y_predict = lr.predict(x_poly)
+    print(y_predict)
 
     df = pd.DataFrame({'Prave vrijednosti': y, 'Procjene': y_predict})
 
@@ -194,6 +195,21 @@ def treniranje_modela():
         title='treniranje modela tablica',
         switch=2,
     )
+
+
+def y_pred_9():
+    min_deg = 1
+    max_deg = 10
+    rmses, min_rmse, min_deg = rmses_deg_from_range(x, y, min_deg, max_deg)
+
+    poly_reg2 = PolynomialFeatures(degree=min_deg)
+    x_poly = poly_reg2.fit_transform(x.to_numpy().reshape(-1, 1))
+    lr2 = linear_model.LinearRegression(
+        fit_intercept=True, copy_X=True)
+
+    lr2.fit(x_poly, y)
+    y_predict = lr2.predict(x_poly)
+    return y_predict
 
 
 # 2.5
@@ -214,13 +230,25 @@ def izgled_modela():
 
     file_exists = os.path.exists('static/images/izgled_modela.png')
 
-    plt = plot(x, y, y_predict, lr, min_deg)
+    X_grid = np.arange(min(x), max(x), 0.1)
+    X_grid = X_grid.reshape((len(X_grid), 1))
+    plt.scatter(x, y, color='red')
+    plt.scatter(x, y_predict, color='green')
+
+    plt.plot(X_grid, lr.predict(
+        poly_reg.fit_transform(X_grid)), color='black')
+    plt.title('Polynomial Regressioan')
+    plt.xlabel('pHa level')
+    plt.ylabel('Quaality')
 
     if file_exists:
         image = os.path.join('static/images/izgled_modela.png')
     else:
         plt.savefig('static/images/izgled_modela.png')
         image = os.path.join('static/images/broken_page.png')
+        plt.clf()
+        plt.cla()
+        plt.close()
 
     return render_template(
         'info.html',

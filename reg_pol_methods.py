@@ -5,10 +5,12 @@ import matplotlib.pyplot as plt
 from math import degrees
 import numpy as np
 import matplotlib
+import os.path
 matplotlib.use('Agg')
 
 
-def plot(x, y, y_pred, lin_reg, degree):
+# Ne koristi se
+def plot(x, y, y_pred, lin_reg, degree, pic):
     poly_reg = PolynomialFeatures(degree=degree)
     X_grid = np.arange(min(x), max(x), 0.1)
     X_grid = X_grid.reshape((len(X_grid), 1))
@@ -21,7 +23,20 @@ def plot(x, y, y_pred, lin_reg, degree):
 
     plt.plot(X_grid, lin_reg.predict(
         poly_reg.fit_transform(X_grid)), color='black')
-    return plt
+
+    file_exists = os.path.exists(pic)
+
+    if file_exists:
+        image = os.path.join(pic)
+        return image
+    else:
+        plt.savefig(pic)
+        image = os.path.join('static/images/broken_page.png')
+        plt.clf()
+        plt.cla()
+        plt.close()
+
+        return image
 
 
 # reg_pol_prisilni_pristup
@@ -57,11 +72,11 @@ def rmses_deg_from_range(x, y, min_deg, max_deg):
 
 # reg_pol_treniranje_modela
 # reg_pol_izgled_modela
-def model_training(x, y, min_deg):
-    poly_reg = PolynomialFeatures(degree=min_deg)
+def model_training(x, y, degree):
+    poly_reg = PolynomialFeatures(degree=degree)
     x_poly = poly_reg.fit_transform(x.to_numpy().reshape(-1, 1))
     lr = linear_model.LinearRegression(
         fit_intercept=True, normalize=False, copy_X=True)
     lr.fit(x_poly, y)
     y_predict = lr.predict(x_poly)
-    return y_predict
+    return (y_predict, lr)
