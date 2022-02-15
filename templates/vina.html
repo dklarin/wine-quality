@@ -1,0 +1,25 @@
+{% extends "base.html" %} {% block title %}Stack Exchange Data{% endblock %} {%
+block navbar %} {% include "header.html" %} {% include "footer.html" %} {%
+endblock %} {% block content %}
+
+<style type="text/css">
+  .img-container {
+    text-align: center;
+    margin-top: 1cm;
+  }
+</style>
+
+<div class="container">
+  <div class="page-header">
+    <h1>{{name | capitalize }}</h1>
+
+    {% if image %}
+    <div class="img-container">
+      <img src="{{image}}" alt="Chart" />
+      <br />
+      <h2>{% if imageText %} {{imageText | capitalize}} {% endif %}</h2>
+    </div>
+    {% else %} {% endif %}
+  </div>
+</div>
+{% endblock %}

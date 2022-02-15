@@ -15,6 +15,7 @@ from reg_lin import reg_lin_page
 from reg_lin_gra_spu import reg_lin_gra_spu_page
 from reg_lin_una_val import reg_lin_una_val_page
 from reg_pol import reg_pol_page
+from vina import vina_page
 
 app = Flask(__name__)
 bootstrap = Bootstrap(app)
@@ -22,6 +23,7 @@ app.register_blueprint(reg_lin_page)
 app.register_blueprint(reg_lin_gra_spu_page)
 app.register_blueprint(reg_lin_una_val_page)
 app.register_blueprint(reg_pol_page)
+app.register_blueprint(vina_page)
 
 
 data = pd.read_csv("winequality-red.csv")

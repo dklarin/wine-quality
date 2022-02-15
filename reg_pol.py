@@ -235,11 +235,14 @@ def izgled_modela():
     plt.scatter(x, y, color='red')
     plt.scatter(x, y_predict, color='green')
 
+    plt.scatter(x[0], y[0], color='blue')
+    #plt.scatter(x, y_predict, color='yellow')
+
     plt.plot(X_grid, lr.predict(
         poly_reg.fit_transform(X_grid)), color='black')
     plt.title('Polynomial Regressioan')
-    plt.xlabel('pHa level')
-    plt.ylabel('Quaality')
+    plt.xlabel('pH level')
+    plt.ylabel('Quality')
 
     if file_exists:
         image = os.path.join('static/images/izgled_modela.png')
