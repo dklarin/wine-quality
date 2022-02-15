@@ -70,6 +70,10 @@ def vina():
 def posip():
 
     name = 'posip'
+    # pošip sur lie
+    # https://www.vinaterramadre.com/vino-komarna/posip-sur-lie
+
+    data = [[]]
 
     min_deg = 1
     max_deg = 10

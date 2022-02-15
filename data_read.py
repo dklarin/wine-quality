@@ -3,6 +3,10 @@ import pandas as pd
 data = pd.read_csv("winequality-red.csv")
 
 
+def data_read():
+    return data
+
+
 def x_alcohol():
     x = data['alcohol']
     return x
