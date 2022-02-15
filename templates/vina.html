@@ -7,7 +7,86 @@ endblock %} {% block content %}
     text-align: center;
     margin-top: 1cm;
   }
+  .grid-container-2 {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr 2fr;
+    font-size: 250%;
+    background-color: aquamarine;
+  }
+  .grid-item-1 {
+    grid-column: 2;
+    text-align: center;
+  }
+  .grid-item-2 {
+    grid-column: 3;
+    text-align: center;
+  }
+  .grid-item-3 {
+    grid-column: 4;
+    text-align: center;
+  }
 </style>
+
+<div class="row">
+  <div class="col-md-2 sidenav"></div>
+
+  <div class="col-md-8 text-center">
+    <div class="grid-container-2">
+      <div class="grid-item-1">
+        <a
+          href="{{ url_for(name, _external=True) }}"
+          class="btn btn-primary btn-lg"
+          role="button"
+          aria-disabled="true"
+        >
+          <div class="button-font">{{name | tocka | title }}</div></a
+        >
+      </div>
+      <div class="grid-item-2">
+        <a
+          href="{{ url_for(name, _external=True) }}"
+          class="btn btn-primary btn-lg"
+          role="button"
+          aria-disabled="true"
+        >
+          <div class="button-font">{{name | tocka | title }}</div></a
+        >
+      </div>
+      {% if name %}
+      <div class="grid-item-3">
+        <a
+          href="{{ url_for(name, _external=True) }}"
+          class="btn btn-primary btn-lg"
+          role="button"
+          aria-disabled="true"
+        >
+          <div class="button-font">{{name | tocka | title }}</div></a
+        >
+      </div>
+      {% else %} {% endif %} {% if name1 %}
+      <a
+        href="{{ url_for(name1, _external=True) }}"
+        class="btn btn-primary btn-lg"
+        role="button"
+        aria-disabled="true"
+      >
+        <div class="button-font">{{name1 | tocka | title }}</div></a
+      >
+      {% else %} {% endif %} {% if name1 %}
+      <a
+        href="{{ url_for(name1, _external=True) }}"
+        class="btn btn-primary btn-lg"
+        role="button"
+        aria-disabled="true"
+      >
+        <div class="button-font">{{name1 | tocka | title }}</div></a
+      >
+      {% else %} {% endif %}
+    </div>
+  </div>
+
+  <div class="col-md-2 sidenav"></div>
+</div>
 
 <div class="container">
   <div class="page-header">
