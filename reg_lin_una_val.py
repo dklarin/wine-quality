@@ -103,6 +103,7 @@ def matrica_konfuzije():
     ax = sns.heatmap(data_copy.corr())
     fig = ax.get_figure()
     fig.savefig('static/images/matrica_konfuzije.png')
+    plt.close(fig)
 
     image = os.path.join('static/images/matrica_konfuzije.png')
 

@@ -15,7 +15,7 @@ gra_spu_links = ['distribution_alcohol', 'distribution_quality',
                  'gradient_descen', 'funkcija_troska', 'reg_lin_izgled_regresije']
 
 x = x_alcohol()
-y = y_quality()
+y = x_ph()
 
 # Skaliranje podataka
 x_scaled = (x - x.mean()) / x.std()
@@ -59,8 +59,8 @@ def distribution_alcohol():
 @reg_lin_gra_spu_page.route('/distribution_quality')
 def distribution_quality():
 
-    x_ax = 'quality'
-    pic = 'static/images/rlgs_distr_quality.png'
+    x_ax = 'ph'
+    pic = 'static/images/rlgs_distr_ph.png'
 
     image = handle_image(y, x_ax, pic, 'hist', 0)
 

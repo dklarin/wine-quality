@@ -21,6 +21,8 @@ from data_read import data_read, y_quality
 wine_quality_page = Blueprint('wine_quality_page', __name__,
                               template_folder='templates')
 
+sp = 'wine_quality_page.'
+
 
 @wine_quality_page.route('/wine_quality')
 def wine_quality():
@@ -41,8 +43,13 @@ def wine_quality():
     image = os.path.join('static/images/mat_konfuzije.png')
 
     return render_template(
-        'vina.html',
+        'info.html',
+        link1=sp+'wine_quality',
+        link2=sp+'model1',
+        link3=sp+'wine_quality',
+        link4=sp+'wine_quality',
         name='wine_quality_page.'+name,
+        image=image
     )
 
 
@@ -69,10 +76,16 @@ def model1():
     model1 = DecisionTreeClassifier(random_state=1)
     model1.fit(X_train, y_train)
     y_pred1 = model1.predict(X_test)
+    print(type(classification_report(y_test, y_pred1)))
 
     return render_template(
-        'vina.html',
+        'info.html',
+        link1=sp+'wine_quality',
+        link2=sp+'model1',
+        link3=sp+'wine_quality',
+        link4=sp+'wine_quality',
         name='wine_quality_page.'+name,
+        # image=image
     )
 
 

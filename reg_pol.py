@@ -33,8 +33,8 @@ def show(page):
         abort(404)'''
 
 
-x = x_ph()
-y = y_quality()
+x = x_alcohol()
+y = x_ph()
 
 
 # 2

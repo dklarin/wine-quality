@@ -12,8 +12,8 @@ from reg_pol_methods import *
 vina_page = Blueprint('vina_page', __name__,
                       template_folder='templates')
 
-x = x_ph()
-y = y_quality()
+x = x_alcohol()
+y = x_ph()
 
 
 @vina_page.route('/vina')
