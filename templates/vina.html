@@ -6,15 +6,41 @@ endblock %} {% block content %}
   .img-container {
     text-align: center;
     margin-top: 1cm;
+    height: 60%;
+  }
+
+  .grid-container {
+    display: grid;
+    grid-template-columns: 1cm 1cm 1cm 1cm 1cm;
+    grid-template-rows: 1cm 1cm 1cm 1cm 1cm;
+    font-size: 250%;
+  }
+
+  .box-1 {
+    grid-column: 2;
+    grid-row: 1;
+    text-align: center;
+  }
+  .box-2 {
+    grid-column: 2;
+    grid-row: 6;
+    text-align: center;
   }
   .grid-container-2 {
     display: grid;
-    grid-template-columns: 2fr 1fr 1fr 1fr 2fr;
+    grid-template-columns: 2fr 1fr 2fr 1fr 2fr;
     font-size: 250%;
-    background-color: aquamarine;
+  }
+
+  .grid-container-3 {
+    display: grid;
+    grid-template-columns: 0.5fr 1fr 5fr 1fr 0.5fr;
+    grid-template-rows: 1cm 1cm 1cm 1cm 1cm;
+    font-size: 250%;
   }
   .grid-item-1 {
     grid-column: 2;
+    grid-row: 4;
     text-align: center;
   }
   .grid-item-2 {
@@ -23,82 +49,238 @@ endblock %} {% block content %}
   }
   .grid-item-3 {
     grid-column: 4;
+    grid-row: 4;
     text-align: center;
+  }
+
+  .puce {
+    height: 4cm;
+    width: 3cm;
+    object-fit: cover;
+  }
+  .img:hover {
+    background-color: yellow;
+  }
+
+  /* Circle */
+  .hover15 figure {
+    position: relative;
+  }
+  .hover15 figure::before {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 2;
+    display: block;
+    content: "";
+    width: 0;
+    height: 0;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 100%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    opacity: 0;
+  }
+  .hover15 figure:hover::before {
+    -webkit-animation: circle 0.75s;
+    animation: circle 0.75s;
+  }
+  @-webkit-keyframes circle {
+    0% {
+      opacity: 1;
+    }
+    40% {
+      opacity: 1;
+    }
+    100% {
+      width: 200%;
+      height: 200%;
+      opacity: 0;
+    }
+  }
+  @keyframes circle {
+    0% {
+      opacity: 1;
+    }
+    40% {
+      opacity: 1;
+    }
+    100% {
+      width: 200%;
+      height: 200%;
+      opacity: 0;
+    }
+  }
+
+  .botun {
+    display: inline-block;
+    margin-bottom: 0;
+    font-weight: normal;
+    text-align: center;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    background-image: none;
+    border: 1px solid transparent;
+    white-space: nowrap;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    border-radius: 4px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+
+  .btn-primary {
+    color: #ffffff;
+    background-color: #b58900;
+    border-color: #b58900;
+  }
+
+  .btn-primary:focus,
+  .btn-primary.focus {
+    color: #ffffff;
+    background-color: #826200;
+    border-color: #362800;
+  }
+
+  .btn-primary:hover {
+    color: #ffffff;
+    background-color: #826200;
+    border-color: #785b00;
+  }
+
+  .btn-primary:active,
+  .btn-primary.active,
+  .open > .dropdown-toggle.btn-primary {
+    color: #ffffff;
+    background-color: #826200;
+    border-color: #785b00;
+  }
+
+  .btn-primary:active:hover,
+  .btn-primary.active:hover,
+  .open > .dropdown-toggle.btn-primary:hover,
+  .btn-primary:active:focus,
+  .btn-primary.active:focus,
+  .open > .dropdown-toggle.btn-primary:focus,
+  .btn-primary:active.focus,
+  .btn-primary.active.focus,
+  .open > .dropdown-toggle.btn-primary.focus {
+    color: #ffffff;
+    background-color: #5e4700;
+    border-color: #362800;
+  }
+
+  .btn-primary:active,
+  .btn-primary.active,
+  .open > .dropdown-toggle.btn-primary {
+    background-image: none;
+  }
+
+  .btn-primary.disabled:hover,
+  .btn-primary[disabled]:hover,
+  fieldset[disabled] .btn-primary:hover,
+  .btn-primary.disabled:focus,
+  .btn-primary[disabled]:focus,
+  fieldset[disabled] .btn-primary:focus,
+  .btn-primary.disabled.focus,
+  .btn-primary[disabled].focus,
+  fieldset[disabled] .btn-primary.focus {
+    background-color: #b58900;
+    border-color: #b58900;
+  }
+
+  .btn-primary .badge {
+    color: #b58900;
+    background-color: #ffffff;
+  }
+
+  .btn-lg,
+  .btn-group-lg > .btn {
+    padding: 10px 16px;
+    font-size: 18px;
+    line-height: 1.3333333;
+    border-radius: 6px;
+  }
+
+  .btn-group > .btn-lg + .dropdown-toggle {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .btn-lg .caret {
+    border-width: 5px 5px 0;
+    border-bottom-width: 0;
+  }
+
+  .dropup .btn-lg .caret {
+    border-width: 0 5px 5px;
   }
 </style>
 
 <div class="row">
-  <div class="col-md-2 sidenav"></div>
+  <div class="col-md-2 sidenav">
+    <div class="grid-container">
+      <a
+        href="{{ url_for(link1, _external=True) }}"
+        class="box-1 hover15 column"
+        role="button"
+        aria-disabled="true"
+      >
+        <figure>
+          <img
+            src="/static/images/vino.jpg"
+            alt="Chart"
+            width="180"
+            height="150"
+          />
+        </figure>
+      </a>
+
+      <a
+        href="{{ url_for(link2, _external=True) }}"
+        class="box-2 hover15 column"
+        role="button"
+        aria-disabled="true"
+      >
+        <figure>
+          <img
+            src="/static/images/vino_2.jpg"
+            alt="Chart"
+            width="180"
+            height="150"
+          />
+        </figure>
+      </a>
+    </div>
+  </div>
 
   <div class="col-md-8 text-center">
-    <div class="grid-container-2">
-      <div class="grid-item-1">
-        <a
-          href="{{ url_for(name, _external=True) }}"
-          class="btn btn-primary btn-lg"
-          role="button"
-          aria-disabled="true"
-        >
-          <div class="button-font">{{name | tocka | title }}</div></a
-        >
+    {% if image %}
+    <div class="img-container">
+      <div class="grid-container-3">
+        <div class="grid-item-1">
+          <img src="{{image}}" alt="Chart" width="600" height="450" />
+          <br />
+        </div>
+        <div class="grid-item-3">
+          <img src="{{image2}}" alt="Chart" width="600" height="450" />
+          <br />
+        </div>
       </div>
-      <div class="grid-item-2">
-        <a
-          href="{{ url_for(name, _external=True) }}"
-          class="btn btn-primary btn-lg"
-          role="button"
-          aria-disabled="true"
-        >
-          <div class="button-font">{{name | tocka | title }}</div></a
-        >
-      </div>
-      {% if name %}
-      <div class="grid-item-3">
-        <a
-          href="{{ url_for(name, _external=True) }}"
-          class="btn btn-primary btn-lg"
-          role="button"
-          aria-disabled="true"
-        >
-          <div class="button-font">{{name | tocka | title }}</div></a
-        >
-      </div>
-      {% else %} {% endif %} {% if name1 %}
-      <a
-        href="{{ url_for(name1, _external=True) }}"
-        class="btn btn-primary btn-lg"
-        role="button"
-        aria-disabled="true"
-      >
-        <div class="button-font">{{name1 | tocka | title }}</div></a
-      >
-      {% else %} {% endif %} {% if name1 %}
-      <a
-        href="{{ url_for(name1, _external=True) }}"
-        class="btn btn-primary btn-lg"
-        role="button"
-        aria-disabled="true"
-      >
-        <div class="button-font">{{name1 | tocka | title }}</div></a
-      >
-      {% else %} {% endif %}
+      <h2>{% if imageText %} {{imageText | capitalize}} {% endif %}</h2>
     </div>
+    {% else %} {% endif %}
   </div>
 
   <div class="col-md-2 sidenav"></div>
 </div>
 
-<div class="container">
-  <div class="page-header">
-    <h1>{{name | capitalize }}</h1>
-
-    {% if image %}
-    <div class="img-container">
-      <img src="{{image}}" alt="Chart" />
-      <br />
-      <h2>{% if imageText %} {{imageText | capitalize}} {% endif %}</h2>
-    </div>
-    {% else %} {% endif %}
-  </div>
+<div class="row">
+  <div class="col-md-12 text-center"></div>
 </div>
 {% endblock %}

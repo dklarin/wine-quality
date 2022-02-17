@@ -80,3 +80,32 @@ def model_training(x, y, degree):
     lr.fit(x_poly, y)
     y_predict = lr.predict(x_poly)
     return (y_predict, lr)
+
+
+def handle_image_reg_pol(x, y, y_pred, lin_reg, degree, pic, i, j):
+
+    file_exists = os.path.exists(pic)
+
+    if file_exists:
+        image = os.path.join(pic)
+        return image
+    else:
+        poly_reg = PolynomialFeatures(degree=degree)
+        X_grid = np.arange(min(x), max(x), 0.1)
+        X_grid = X_grid.reshape((len(X_grid), 1))
+        plt.scatter(x, y, color='red')
+        plt.scatter(x, y_pred, color='green')
+        plt.scatter(i, j, color='blue')
+
+        plt.title('Polynomial Regression')
+        plt.xlabel('pH level')
+        plt.ylabel('Quality')
+
+        plt.plot(X_grid, lin_reg.predict(
+            poly_reg.fit_transform(X_grid)), color='black')
+        plt.savefig(pic)
+        plt.clf()
+        plt.cla()
+        plt.close()
+        image = os.path.join('static/images/broken_page.png')
+        return image
