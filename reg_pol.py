@@ -62,28 +62,8 @@ def reg_pol_izgled_regresije():
     lr.fit(x_poly, y)
     y_predict = lr.predict(x_poly)
 
-    X_grid = np.arange(min(x), max(x), 0.1)
-    X_grid = X_grid.reshape((len(X_grid), 1))
-    plt.scatter(x, y, color='red')
-    plt.scatter(x, y_predict, color='green')
-
-    plt.title('Polynomial Regression')
-    plt.xlabel('pH level')
-    plt.ylabel('Quality')
-
-    plt.plot(X_grid, lr.predict(
-        poly_reg.fit_transform(X_grid)), color='black')
-
-    file_exists = os.path.exists('static/images/polinomijalna_regresija.png')
-
-    if file_exists:
-        image = os.path.join('static/images/polinomijalna_regresija.png')
-    else:
-        plt.savefig('static/images/polinomijalna_regresija.png')
-        image = os.path.join('static/images/broken_page.png')
-        plt.clf()
-        plt.cla()
-        plt.close()
+    pic_pol = 'static/images/pol_regresija.png'
+    image_pol = handle_image_reg_pol(x, y, y_predict, lr, 4, pic_pol, 0, 0)
 
     return render_template(
         'info.html',
@@ -93,7 +73,7 @@ def reg_pol_izgled_regresije():
         link4=sp+reg_pol_links[3],
         link5=sp+reg_pol_links[4],
         title='polynomial regression',
-        image=image
+        image=image_pol
     )
 
 
@@ -175,9 +155,16 @@ def prisilni_pristup():
 @reg_pol_page.route('/treniranje_modela')
 def treniranje_modela():
 
-    y_predict = y_pred_9()
+    min_deg = 1
+    max_deg = 10
+    rmses, min_rmse, min_deg = rmses_deg_from_range(x, y, min_deg, max_deg)
 
-    print(y_predict)
+    poly_reg = PolynomialFeatures(degree=min_deg)
+    x_poly = poly_reg.fit_transform(x.to_numpy().reshape(-1, 1))
+    lr = linear_model.LinearRegression(
+        fit_intercept=True, copy_X=True)
+    lr.fit(x_poly, y)
+    y_predict = lr.predict(x_poly)
 
     df = pd.DataFrame({'Prave vrijednosti': y, 'Procjene': y_predict})
 
@@ -197,21 +184,6 @@ def treniranje_modela():
     )
 
 
-def y_pred_9():
-    min_deg = 1
-    max_deg = 10
-    rmses, min_rmse, min_deg = rmses_deg_from_range(x, y, min_deg, max_deg)
-
-    poly_reg2 = PolynomialFeatures(degree=min_deg)
-    x_poly = poly_reg2.fit_transform(x.to_numpy().reshape(-1, 1))
-    lr2 = linear_model.LinearRegression(
-        fit_intercept=True, copy_X=True)
-
-    lr2.fit(x_poly, y)
-    y_predict = lr2.predict(x_poly)
-    return y_predict
-
-
 # 2.5
 @reg_pol_page.route('/izgled_modela')
 def izgled_modela():
@@ -224,34 +196,12 @@ def izgled_modela():
     x_poly = poly_reg.fit_transform(x.to_numpy().reshape(-1, 1))
     lr = linear_model.LinearRegression(
         fit_intercept=True, copy_X=True)
-
     lr.fit(x_poly, y)
     y_predict = lr.predict(x_poly)
 
-    file_exists = os.path.exists('static/images/izgled_modela.png')
-
-    X_grid = np.arange(min(x), max(x), 0.1)
-    X_grid = X_grid.reshape((len(X_grid), 1))
-    plt.scatter(x, y, color='red')
-    plt.scatter(x, y_predict, color='green')
-
-    plt.scatter(x[0], y[0], color='blue')
-    #plt.scatter(x, y_predict, color='yellow')
-
-    plt.plot(X_grid, lr.predict(
-        poly_reg.fit_transform(X_grid)), color='black')
-    plt.title('Polynomial Regressioan')
-    plt.xlabel('pH level')
-    plt.ylabel('Quality')
-
-    if file_exists:
-        image = os.path.join('static/images/izgled_modela.png')
-    else:
-        plt.savefig('static/images/izgled_modela.png')
-        image = os.path.join('static/images/broken_page.png')
-        plt.clf()
-        plt.cla()
-        plt.close()
+    pic_pol = 'static/images/pol_model.png'
+    image_pol = handle_image_reg_pol(
+        x, y, y_predict, lr, min_deg, pic_pol, 0, 0)
 
     return render_template(
         'info.html',
@@ -261,6 +211,6 @@ def izgled_modela():
         link4=sp+reg_pol_links[3],
         link5=sp+reg_pol_links[4],
         title='izgled treniranog modela',
-        image=image,
+        image=image_pol,
         switch=2,
     )

@@ -52,7 +52,7 @@ def reg_lin_metrike():
         value1=mae.round(4),
         value2=mse.round(4),
         value3=rmse.round(4),
-        value4=r2_square.round(4),
+        value4=r2_square.round(4)*100,
         link1=sp+'reg_lin_metrike',
         link2=sp+'k_fold_validacija',
         link3=sp+'matrica_konfuzije',

@@ -16,6 +16,8 @@ from sklearn.ensemble import GradientBoostingClassifier
 import xgboost as xgb
 import json
 
+from sklearn import metrics
+
 from data_read import data_read, y_quality
 
 wine_quality_page = Blueprint('wine_quality_page', __name__,
@@ -46,8 +48,10 @@ def wine_quality():
         'info.html',
         link1=sp+'wine_quality',
         link2=sp+'model1',
-        link3=sp+'wine_quality',
-        link4=sp+'wine_quality',
+        link3=sp+'model2',
+        link4=sp+'model3',
+        link5=sp+'model4',
+        link6=sp+'model5',
         name='wine_quality_page.'+name,
         image=image
     )
@@ -78,12 +82,27 @@ def model1():
     y_pred1 = model1.predict(X_test)
     print(type(classification_report(y_test, y_pred1)))
 
+    mae = metrics.mean_absolute_error(y_test, y_pred1)
+    mse = metrics.mean_squared_error(y_test, y_pred1)
+    rmse = np.sqrt(metrics.mean_squared_error(y_test, y_pred1))
+    r2_square = metrics.r2_score(y_test, y_pred1)
+
     return render_template(
         'info.html',
+        keyword1='MAE',
+        keyword2='MSE',
+        keyword3='RMSE',
+        keyword4='R2 SQUARE',
+        value1=mae.round(4),
+        value2=mse.round(4),
+        value3=rmse.round(4),
+        value4=r2_square.round(4),
         link1=sp+'wine_quality',
         link2=sp+'model1',
-        link3=sp+'wine_quality',
-        link4=sp+'wine_quality',
+        link3=sp+'model2',
+        link4=sp+'model3',
+        link5=sp+'model4',
+        link6=sp+'model5',
         name='wine_quality_page.'+name,
         # image=image
     )
@@ -114,13 +133,32 @@ def model2():
     y_pred2 = model2.predict(X_test)
     print(classification_report(y_test, y_pred2))
 
+    mae = metrics.mean_absolute_error(y_test, y_pred2)
+    mse = metrics.mean_squared_error(y_test, y_pred2)
+    rmse = np.sqrt(metrics.mean_squared_error(y_test, y_pred2))
+    r2_square = metrics.r2_score(y_test, y_pred2)
+
     feat_importances = pd.Series(model2.feature_importances_, index=X.columns)
     ax = feat_importances.nlargest(25).plot(kind='barh', figsize=(10, 10))
     fig = ax.get_figure()
     fig.savefig('static/images/randomforest.png')
 
     return render_template(
-        'vina.html',
+        'info.html',
+        keyword1='MAE',
+        keyword2='MSE',
+        keyword3='RMSE',
+        keyword4='R2 SQUARE',
+        value1=mae.round(4),
+        value2=mse.round(4),
+        value3=rmse.round(4),
+        value4=r2_square.round(4),
+        link1=sp+'wine_quality',
+        link2=sp+'model1',
+        link3=sp+'model2',
+        link4=sp+'model3',
+        link5=sp+'model4',
+        link6=sp+'model5',
         name='wine_quality_page.'+name,
     )
 
@@ -150,8 +188,27 @@ def model3():
     y_pred3 = model3.predict(X_test)
     print(classification_report(y_test, y_pred3))
 
+    mae = metrics.mean_absolute_error(y_test, y_pred3)
+    mse = metrics.mean_squared_error(y_test, y_pred3)
+    rmse = np.sqrt(metrics.mean_squared_error(y_test, y_pred3))
+    r2_square = metrics.r2_score(y_test, y_pred3)
+
     return render_template(
-        'vina.html',
+        'info.html',
+        keyword1='MAE',
+        keyword2='MSE',
+        keyword3='RMSE',
+        keyword4='R2 SQUARE',
+        value1=mae.round(4),
+        value2=mse.round(4),
+        value3=rmse.round(4),
+        value4=r2_square.round(4),
+        link1=sp+'wine_quality',
+        link2=sp+'model1',
+        link3=sp+'model2',
+        link4=sp+'model3',
+        link5=sp+'model4',
+        link6=sp+'model5',
         name='wine_quality_page.'+name,
     )
 
@@ -181,8 +238,27 @@ def model4():
     y_pred4 = model4.predict(X_test)
     print(classification_report(y_test, y_pred4))
 
+    mae = metrics.mean_absolute_error(y_test, y_pred4)
+    mse = metrics.mean_squared_error(y_test, y_pred4)
+    rmse = np.sqrt(metrics.mean_squared_error(y_test, y_pred4))
+    r2_square = metrics.r2_score(y_test, y_pred4)
+
     return render_template(
-        'vina.html',
+        'info.html',
+        keyword1='MAE',
+        keyword2='MSE',
+        keyword3='RMSE',
+        keyword4='R2 SQUARE',
+        value1=mae.round(4),
+        value2=mse.round(4),
+        value3=rmse.round(4),
+        value4=r2_square.round(4),
+        link1=sp+'wine_quality',
+        link2=sp+'model1',
+        link3=sp+'model2',
+        link4=sp+'model3',
+        link5=sp+'model4',
+        link6=sp+'model5',
         name='wine_quality_page.'+name,
     )
 
@@ -212,6 +288,11 @@ def model5():
     y_pred5 = model5.predict(X_test)
     print(classification_report(y_test, y_pred5))
 
+    mae = metrics.mean_absolute_error(y_test, y_pred5)
+    mse = metrics.mean_squared_error(y_test, y_pred5)
+    rmse = np.sqrt(metrics.mean_squared_error(y_test, y_pred5))
+    r2_square = metrics.r2_score(y_test, y_pred5)
+
     #feat_importances = pd.Series(model2.feature_importances_, index=X.columns)
     #ax = feat_importances.nlargest(25).plot(kind='barh', figsize=(10, 10))
     #fig = ax.get_figure()
@@ -223,7 +304,21 @@ def model5():
     fig.savefig('static/images/gbc.png')
 
     return render_template(
-        'vina.html',
+        'info.html',
+        keyword1='MAE',
+        keyword2='MSE',
+        keyword3='RMSE',
+        keyword4='R2 SQUARE',
+        value1=mae.round(4),
+        value2=mse.round(4),
+        value3=rmse.round(4),
+        value4=r2_square.round(4),
+        link1=sp+'wine_quality',
+        link2=sp+'model1',
+        link3=sp+'model2',
+        link4=sp+'model3',
+        link5=sp+'model4',
+        link6=sp+'model5',
         name='wine_quality_page.'+name,
     )
 

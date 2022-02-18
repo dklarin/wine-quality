@@ -82,6 +82,15 @@
         >
           <div class="button-font">{{link5 | tocka | title }}</div></a
         >
+        {% else %} {% endif %} {% if link6 %}
+        <a
+          href="{{ url_for(link6, _external=True) }}"
+          class="btn btn-primary btn-lg"
+          role="button"
+          aria-disabled="true"
+        >
+          <div class="button-font">{{link6 | tocka | title }}</div></a
+        >
         {% else %} {% endif %}
       </div>
     </div>
