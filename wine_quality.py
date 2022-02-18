@@ -52,6 +52,8 @@ def wine_quality():
         link4=sp+'model3',
         link5=sp+'model4',
         link6=sp+'model5',
+        link7=sp+'good',
+        link8=sp+'bad',
         name='wine_quality_page.'+name,
         image=image
     )
@@ -103,6 +105,8 @@ def model1():
         link4=sp+'model3',
         link5=sp+'model4',
         link6=sp+'model5',
+        link7=sp+'good',
+        link8=sp+'bad',
         name='wine_quality_page.'+name,
         # image=image
     )
@@ -159,6 +163,8 @@ def model2():
         link4=sp+'model3',
         link5=sp+'model4',
         link6=sp+'model5',
+        link7=sp+'good',
+        link8=sp+'bad',
         name='wine_quality_page.'+name,
     )
 
@@ -209,6 +215,8 @@ def model3():
         link4=sp+'model3',
         link5=sp+'model4',
         link6=sp+'model5',
+        link7=sp+'good',
+        link8=sp+'bad',
         name='wine_quality_page.'+name,
     )
 
@@ -259,6 +267,8 @@ def model4():
         link4=sp+'model3',
         link5=sp+'model4',
         link6=sp+'model5',
+        link7=sp+'good',
+        link8=sp+'bad',
         name='wine_quality_page.'+name,
     )
 
@@ -319,6 +329,8 @@ def model5():
         link4=sp+'model3',
         link5=sp+'model4',
         link6=sp+'model5',
+        link7=sp+'good',
+        link8=sp+'bad',
         name='wine_quality_page.'+name,
     )
 
@@ -349,9 +361,14 @@ def good():
         'table.html',
         tables=json_list,
         title='describe',
-        link1='dataset',
-        link2='describe',
-        link3='shape',
+        link1=sp+'wine_quality',
+        link2=sp+'model1',
+        link3=sp+'model2',
+        link4=sp+'model3',
+        link5=sp+'model4',
+        link6=sp+'model5',
+        link7=sp+'good',
+        link8=sp+'bad',
         switch=1
     )
 
@@ -382,9 +399,14 @@ def bad():
         'table.html',
         tables=json_list,
         title='describe',
-        link1='dataset',
-        link2='describe',
-        link3='shape',
+        link1=sp+'wine_quality',
+        link2=sp+'model1',
+        link3=sp+'model2',
+        link4=sp+'model3',
+        link5=sp+'model4',
+        link6=sp+'model5',
+        link7=sp+'good',
+        link8=sp+'bad',
         switch=1
     )
 
@@ -392,12 +414,6 @@ def bad():
 @wine_quality_page.route('/quality8')
 def quality8():
     df = data_read()
-
-    # Create Classification version of target variable
-    #df['goodquality'] = [1 if x >= 7 else 0 for x in df['quality']]
-    # Separate feature variables and target variable
-    #X = df.drop(['quality', 'goodquality'], axis=1)
-    #y = df['goodquality']
 
     # Filtering df for only good quality
     df_temp = df[df['quality'] == 8]

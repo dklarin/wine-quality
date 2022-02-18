@@ -95,6 +95,7 @@ def handle_image_reg_pol(x, y, y_pred, lin_reg, degree, pic, i, j):
         X_grid = X_grid.reshape((len(X_grid), 1))
         plt.scatter(x, y, color='red')
         plt.scatter(x, y_pred, color='green')
+        # za pojedinačno vino
         if type(i) == np.int64:
             plt.scatter(i, j, color='blue')
 

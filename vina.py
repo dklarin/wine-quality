@@ -50,42 +50,44 @@ lr.fit(x_poly, y)
 y_predict = lr.predict(x_poly)
 
 
-@vina_page.route('/posip')
-def posip():
+@vina_page.route('/vino_1')
+def vino_1():
 
-    pic_lin = 'static/images/lin_posip.png'
-    pic_pol = 'static/images/pol_posip.png'
+    pic_lin = 'static/images/lin_vino_1.png'
+    pic_pol = 'static/images/pol_vino_1.png'
 
-    image_lin = handle_image_reg_lin(
+    image_lin = handle_image_reg_lin_not_scaled(
         x_scaled, x, y, theta[0], theta[1], pic_lin, i[0], j[0])
     image_pol = handle_image_reg_pol(
         x, y, y_predict, lr, min_deg, pic_pol, i[0], j[0])
 
     return render_template(
         'vina.html',
-        link1='vina_page.'+'posip',
-        link2='vina_page.'+'malvazija',
+        link1='vina_page.'+'vino_1',
+        link2='vina_page.'+'vino_2',
         image=image_lin,
-        image2=image_pol
+        image2=image_pol,
+        text='Vino 1, Alkohol: 13%, pH: 3,24'
     )
 
 
-@vina_page.route('/malvazija')
-def malvazija():
+@vina_page.route('/vino_2')
+def vino_2():
 
-    pic_lin = 'static/images/lin_malvazija.png'
-    pic_pol = 'static/images/pol_malvazija.png'
+    pic_lin = 'static/images/lin_vino_2.png'
+    pic_pol = 'static/images/pol_vino_2.png'
 
-    image_lin = handle_image_reg_lin(
+    image_lin = handle_image_reg_lin_not_scaled(
         x_scaled, x, y, theta[0], theta[1], pic_lin, i[1], j[1])
     image_pol = handle_image_reg_pol(
         x, y, y_predict, lr, min_deg, pic_pol, i[1], j[1])
 
     return render_template(
         'vina.html',
-        link1='vina_page.'+'posip',
-        link2='vina_page.'+'malvazija',
+        link1='vina_page.'+'vino_1',
+        link2='vina_page.'+'vino_2',
         image=image_lin,
-        image2=image_pol
+        image2=image_pol,
+        text='Vino 1, Alkohol: 12%, pH: 2,9'
 
     )
