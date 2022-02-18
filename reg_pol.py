@@ -20,8 +20,8 @@ reg_pol_page = Blueprint('reg_pol_page', __name__,
 
 sp = 'reg_pol_page.'
 
-reg_pol_links = ['reg_pol_izgled_regresije', 'reg_pol_metrike',
-                 'prisilni_pristup', 'treniranje_modela', 'izgled_modela']
+reg_pol_links = ['rp_regression_look', 'rp_metrics',
+                 'rp_forced_access', 'treniranje_modela', 'izgled_modela']
 
 
 '''@reg_pol_page.route('/', defaults={'page': 'index'})
@@ -52,8 +52,8 @@ def regression_polynomial():
 
 
 # 2.1
-@reg_pol_page.route('/reg_pol_izgled_regresije')
-def reg_pol_izgled_regresije():
+@reg_pol_page.route('/rp_regression_look')
+def rp_regression_look():
 
     poly_reg = PolynomialFeatures(degree=4)
     x_poly = poly_reg.fit_transform(x.to_numpy().reshape(-1, 1))
@@ -78,8 +78,8 @@ def reg_pol_izgled_regresije():
 
 
 # 2.2
-@reg_pol_page.route('/reg_pol_metrike')
-def reg_pol_metrike():
+@reg_pol_page.route('/rp_metrics')
+def rp_metrics():
 
     poly_reg = PolynomialFeatures(degree=4)
     x_poly = poly_reg.fit_transform(x.to_numpy().reshape(-1, 1))
@@ -113,8 +113,8 @@ def reg_pol_metrike():
 
 
 # 2.3
-@reg_pol_page.route('/prisilni_pristup')
-def prisilni_pristup():
+@reg_pol_page.route('/rp_forced_access')
+def rp_forced_access():
 
     min_deg = 1
     max_deg = 10

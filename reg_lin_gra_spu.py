@@ -11,8 +11,8 @@ reg_lin_gra_spu_page = Blueprint('reg_lin_gra_spu_page', __name__,
 
 sp = 'reg_lin_gra_spu_page.'
 
-gra_spu_links = ['distribution_alcohol', 'distribution_quality',
-                 'gradient_descen', 'funkcija_troska', 'reg_lin_izgled_regresije']
+gra_spu_links = ['rlgd_distribution_alcohol', 'rlgd_distribution_ph',
+                 'rlgd_gradient_descent', 'rlgd_cost_function', 'rlgd_regression_look']
 
 x = x_alcohol()
 y = x_ph()
@@ -35,11 +35,11 @@ theta = past_thetas[-1]
 
 
 # 1.1.1
-@reg_lin_gra_spu_page.route('/distribution_alcohol')
-def distribution_alcohol():
+@reg_lin_gra_spu_page.route('/rlgd_distribution_alcohol')
+def rlgd_distribution_alcohol():
 
     x_ax = 'alcohol'
-    pic = 'static/images/rlgs_distr_alcohol.png'
+    pic = 'static/images/rlgd_distribution_alcohol.png'
 
     image = handle_image(x, x_ax, pic, 'hist', 0)
 
@@ -56,11 +56,11 @@ def distribution_alcohol():
 
 
 # 1.1.2
-@reg_lin_gra_spu_page.route('/distribution_quality')
-def distribution_quality():
+@reg_lin_gra_spu_page.route('/rlgd_distribution_ph')
+def rlgd_distribution_ph():
 
     x_ax = 'ph'
-    pic = 'static/images/rlgs_distr_ph.png'
+    pic = 'static/images/rlgd_distribution_ph.png'
 
     image = handle_image(y, x_ax, pic, 'hist', 0)
 
@@ -72,13 +72,13 @@ def distribution_quality():
         link4=sp+gra_spu_links[3],
         link5=sp+gra_spu_links[4],
         button1='Alcohol Distribution',
-        title='distribution quality',
+        title='Distribution pH',
         image=image)
 
 
 # 1.1.3
-@reg_lin_gra_spu_page.route('/gradient_descen')
-def gradient_descen():
+@reg_lin_gra_spu_page.route('/rlgd_gradient_descent')
+def rlgd_gradient_descent():
 
     return render_template(
         'info.html',
@@ -96,10 +96,10 @@ def gradient_descen():
 
 
 # 1.1.4
-@reg_lin_gra_spu_page.route('/funkcija_troska')
-def funkcija_troska():
+@reg_lin_gra_spu_page.route('/rlgd_cost_function')
+def rlgd_cost_function():
 
-    pic = 'static/images/rlgs_funkcija_troska.png'
+    pic = 'static/images/rlgd_cost_function.png'
 
     image = handle_image(0, 0, pic, 'plot', past_costs)
 
@@ -111,15 +111,15 @@ def funkcija_troska():
         link4=sp+gra_spu_links[3],
         link5=sp+gra_spu_links[4],
         button1='Alcohol Distribution',
-        title='funkcija troška',
+        title='Cost Function',
         image=image)
 
 
 # 1.1.5
-@reg_lin_gra_spu_page.route('/reg_lin_izgled_regresije')
-def reg_lin_izgled_regresije():
+@reg_lin_gra_spu_page.route('/rlgd_regression_look')
+def rlgd_regression_look():
 
-    pic = 'static/images/izgled_regresije.png'
+    pic = 'static/images/rlgd_regression_look.png'
 
     image = handle_image_reg(x_scaled, y, theta[0], theta[1], pic)
 
@@ -131,5 +131,5 @@ def reg_lin_izgled_regresije():
         link4=sp+gra_spu_links[3],
         link5=sp+gra_spu_links[4],
         button1='Alcohol Distribution',
-        title='izgled regresije',
+        title='Regression Look',
         image=image)

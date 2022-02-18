@@ -10,7 +10,7 @@ from sklearn import linear_model, metrics
 from reg_pol_methods import *
 from reg_lin_methods import *
 
-vina_page = Blueprint('vina_page', __name__,
+wine_page = Blueprint('wine_page', __name__,
                       template_folder='templates')
 
 x = x_alcohol()
@@ -50,7 +50,7 @@ lr.fit(x_poly, y)
 y_predict = lr.predict(x_poly)
 
 
-@vina_page.route('/vino_1')
+@wine_page.route('/wine_1')
 def vino_1():
 
     pic_lin = 'static/images/lin_vino_1.png'
@@ -63,15 +63,15 @@ def vino_1():
 
     return render_template(
         'vina.html',
-        link1='vina_page.'+'vino_1',
-        link2='vina_page.'+'vino_2',
+        link1='vina_page.'+'wine_1',
+        link2='vina_page.'+'wine_2',
         image=image_lin,
         image2=image_pol,
         text='Vino 1, Alkohol: 13%, pH: 3,24'
     )
 
 
-@vina_page.route('/vino_2')
+@wine_page.route('/wine_2')
 def vino_2():
 
     pic_lin = 'static/images/lin_vino_2.png'
@@ -84,8 +84,8 @@ def vino_2():
 
     return render_template(
         'vina.html',
-        link1='vina_page.'+'vino_1',
-        link2='vina_page.'+'vino_2',
+        link1='vina_page.'+'wine_1',
+        link2='vina_page.'+'wine_2',
         image=image_lin,
         image2=image_pol,
         text='Vino 1, Alkohol: 12%, pH: 2,9'

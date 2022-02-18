@@ -15,7 +15,7 @@ from reg_lin import reg_lin_page
 from reg_lin_gra_spu import reg_lin_gra_spu_page
 from reg_lin_una_val import reg_lin_una_val_page
 from reg_pol import reg_pol_page
-from vina import vina_page
+from wine import wine_page
 from wine_quality import wine_quality_page
 
 app = Flask(__name__)
@@ -24,7 +24,7 @@ app.register_blueprint(reg_lin_page)
 app.register_blueprint(reg_lin_gra_spu_page)
 app.register_blueprint(reg_lin_una_val_page)
 app.register_blueprint(reg_pol_page)
-app.register_blueprint(vina_page)
+app.register_blueprint(wine_page)
 app.register_blueprint(wine_quality_page)
 
 
@@ -51,7 +51,7 @@ def reverse_filter(s):
     if len(st) < 2:
         return st[0]
     elif len(st) == 3:
-        return st[2]
+        return st[1]+' '+st[2]
     elif len(st) == 4:
         return st[2]+' '+st[3]
     else:
@@ -121,8 +121,8 @@ def shape():
     )
 
 
-@app.route('/linkovi/')
-def linkovi():
+@app.route('/links')
+def links():
     linkovi = ['https://www.pmfst.unist.hr/',
                'https://www.pmfst.unist.hr/kalendar/']
     return render_template('links.html', linkovi=linkovi)

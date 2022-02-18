@@ -37,12 +37,10 @@ def wine_quality():
     plt.subplots(figsize=(15, 10))
     ax = sns.heatmap(corr, xticklabels=corr.columns, yticklabels=corr.columns,
                      annot=True, cmap=sns.diverging_palette(220, 20, as_cmap=True))
-
-    #ax = sns.heatmap(data_copy.corr())
     fig = ax.get_figure()
-    fig.savefig('static/images/mat_konfuzije.png')
+    fig.savefig('static/images/wq_matrix.png')
 
-    image = os.path.join('static/images/mat_konfuzije.png')
+    image = os.path.join('static/images/wq_matrix.png')
 
     return render_template(
         'info.html',

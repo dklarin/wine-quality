@@ -19,6 +19,9 @@ reg_lin_una_val_page = Blueprint('reg_lin_una_val_page', __name__,
 
 sp = 'reg_lin_una_val_page.'
 
+una_val_links = ['rlcv_metrics', 'rlcv_k_fold_validation',
+                 'rlcv_matrics', 'rlcv_model_training']
+
 x_scaled = StandardScaler().fit_transform(x.to_numpy().reshape(-1, 1))
 
 x_scaled = pd.DataFrame(x_scaled, columns=["alcohol"])
@@ -35,8 +38,8 @@ y_predict = lr.predict(x_test)
 
 
 # 2.2
-@reg_lin_una_val_page.route('/reg_lin_metrike')
-def reg_lin_metrike():
+@reg_lin_una_val_page.route('/rlcv_metrics')
+def rlcv_metrics():
 
     mae = metrics.mean_absolute_error(y_test, y_predict)
     mse = metrics.mean_squared_error(y_test, y_predict)
@@ -53,17 +56,17 @@ def reg_lin_metrike():
         value2=mse.round(4),
         value3=rmse.round(4),
         value4=r2_square.round(4)*100,
-        link1=sp+'reg_lin_metrike',
-        link2=sp+'k_fold_validacija',
-        link3=sp+'matrica_konfuzije',
-        link4=sp+'reg_lin_treniranje_modela',
-        title='metrike'
+        link1=sp+una_val_links[0],
+        link2=sp+una_val_links[1],
+        link3=sp+una_val_links[2],
+        link4=sp+una_val_links[3],
+        title='Metrics'
     )
 
 
 # K fold validacija i traženje najbolje kombinacije parametara
-@reg_lin_una_val_page.route('/k_fold_validacija')
-def k_fold_validacija():
+@reg_lin_una_val_page.route('/rlcv_k_fold_validation')
+def rlcv_k_fold_validation():
 
     grid_linear = GridSearchCV(linear_model.LinearRegression(), param_grid={'fit_intercept': [
                                True, False], 'normalize': [True, False], 'copy_X': [True, False]}, cv=5)
@@ -88,24 +91,24 @@ def k_fold_validacija():
         value2=mse.round(4),
         value3=rmse.round(4),
         value4=r2_square.round(4),
-        link1=sp+'reg_lin_metrike',
-        link2=sp+'k_fold_validacija',
-        link3=sp+'matrica_konfuzije',
-        link4=sp+'reg_lin_treniranje_modela',
-        title='metrike'
+        link1=sp+una_val_links[0],
+        link2=sp+una_val_links[1],
+        link3=sp+una_val_links[2],
+        link4=sp+una_val_links[3],
+        title='K-Fold Validation Metrics'
     )
 
 
-@reg_lin_una_val_page.route('/matrica_konfuzije')
-def matrica_konfuzije():
+@reg_lin_una_val_page.route('/rlcv_matrics')
+def rlcv_matrics():
 
     data_copy = copy_data()
     ax = sns.heatmap(data_copy.corr())
     fig = ax.get_figure()
-    fig.savefig('static/images/matrica_konfuzije.png')
+    fig.savefig('static/images/rlcv_matrics.png')
     plt.close(fig)
 
-    image = os.path.join('static/images/matrica_konfuzije.png')
+    image = os.path.join('static/images/rlcv_matrics.png')
 
     return render_template(
         'info.html',
@@ -113,21 +116,17 @@ def matrica_konfuzije():
         keyword2='MSE',
         keyword3='RMSE',
         keyword4='R2 SQUARE',
-        # value1=mae.round(4),
-        # value2=mse.round(4),
-        # value3=rmse.round(4),
-        # value4=r2_square.round(4),
-        link1=sp+'reg_lin_metrike',
-        link2=sp+'k_fold_validacija',
-        link3=sp+'matrica_konfuzije',
-        link4=sp+'reg_lin_treniranje_modela',
-        title='metrike',
+        link1=sp+una_val_links[0],
+        link2=sp+una_val_links[1],
+        link3=sp+una_val_links[2],
+        link4=sp+una_val_links[3],
+        title='Confusion Matrics',
         image=image
     )
 
 
-@reg_lin_una_val_page.route('/reg_lin_treniranje_modela')
-def reg_lin_treniranje_modela():
+@reg_lin_una_val_page.route('/rlcv_model_training')
+def rlcv_model_training():
 
     x = copy_data2()
     y = y_quality()
@@ -158,10 +157,10 @@ def reg_lin_treniranje_modela():
         value2=mse.round(4),
         value3=rmse.round(4),
         value4=r2_square.round(4),
-        link1=sp+'reg_lin_metrike',
-        link2=sp+'k_fold_validacija',
-        link3=sp+'matrica_konfuzije',
-        link4=sp+'reg_lin_treniranje_modela',
-        title='treniranje modela',
+        link1=sp+una_val_links[0],
+        link2=sp+una_val_links[1],
+        link3=sp+una_val_links[2],
+        link4=sp+una_val_links[3],
+        title='Model Training Metrics',
         switch=2,
     )
