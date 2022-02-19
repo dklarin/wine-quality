@@ -51,10 +51,10 @@ y_predict = lr.predict(x_poly)
 
 
 @wine_page.route('/wine_1')
-def vino_1():
+def wine_1():
 
-    pic_lin = 'static/images/lin_vino_1.png'
-    pic_pol = 'static/images/pol_vino_1.png'
+    pic_lin = 'static/images/lin_wine_1.png'
+    pic_pol = 'static/images/pol_wine_1.png'
 
     image_lin = handle_image_reg_lin_not_scaled(
         x_scaled, x, y, theta[0], theta[1], pic_lin, i[0], j[0])
@@ -63,8 +63,8 @@ def vino_1():
 
     return render_template(
         'vina.html',
-        link1='vina_page.'+'wine_1',
-        link2='vina_page.'+'wine_2',
+        link1='wine_page.'+'wine_1',
+        link2='wine_page.'+'wine_2',
         image=image_lin,
         image2=image_pol,
         text='Vino 1, Alkohol: 13%, pH: 3,24'
@@ -72,10 +72,10 @@ def vino_1():
 
 
 @wine_page.route('/wine_2')
-def vino_2():
+def wine_2():
 
-    pic_lin = 'static/images/lin_vino_2.png'
-    pic_pol = 'static/images/pol_vino_2.png'
+    pic_lin = 'static/images/lin_wine_2.png'
+    pic_pol = 'static/images/pol_wine_2.png'
 
     image_lin = handle_image_reg_lin_not_scaled(
         x_scaled, x, y, theta[0], theta[1], pic_lin, i[1], j[1])
@@ -84,8 +84,8 @@ def vino_2():
 
     return render_template(
         'vina.html',
-        link1='vina_page.'+'wine_1',
-        link2='vina_page.'+'wine_2',
+        link1='wine_page.'+'wine_1',
+        link2='wine_page.'+'wine_2',
         image=image_lin,
         image2=image_pol,
         text='Vino 1, Alkohol: 12%, pH: 2,9'

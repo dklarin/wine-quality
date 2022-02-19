@@ -14,16 +14,21 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.ensemble import AdaBoostClassifier
 from sklearn.ensemble import GradientBoostingClassifier
 import xgboost as xgb
+from sklearn.naive_bayes import GaussianNB
+from sklearn.metrics import confusion_matrix, accuracy_score
 import json
 
 from sklearn import metrics
 
-from data_read import data_read, y_quality
+from data_read import data_read
 
 wine_quality_page = Blueprint('wine_quality_page', __name__,
                               template_folder='templates')
 
 sp = 'wine_quality_page.'
+
+wine_quality_links = ['wine_quality', 'decision_tree', 'random_forest',
+                      'ada_boost', 'gradient_boost', 'xg_boost', 'good_wines', 'bad_wines']
 
 
 @wine_quality_page.route('/wine_quality')
@@ -34,7 +39,7 @@ def wine_quality():
     df = data_read()
 
     corr = df.corr()
-    plt.subplots(figsize=(15, 10))
+    plt.subplots(figsize=(15, 14))
     ax = sns.heatmap(corr, xticklabels=corr.columns, yticklabels=corr.columns,
                      annot=True, cmap=sns.diverging_palette(220, 20, as_cmap=True))
     fig = ax.get_figure()
@@ -43,22 +48,87 @@ def wine_quality():
     image = os.path.join('static/images/wq_matrix.png')
 
     return render_template(
-        'info.html',
-        link1=sp+'wine_quality',
-        link2=sp+'model1',
-        link3=sp+'model2',
-        link4=sp+'model3',
-        link5=sp+'model4',
-        link6=sp+'model5',
-        link7=sp+'good',
-        link8=sp+'bad',
+        'wine_quality.html',
+        link1=sp+wine_quality_links[0],
+        link2=sp+wine_quality_links[1],
+        link3=sp+wine_quality_links[2],
+        link4=sp+wine_quality_links[3],
+        link5=sp+wine_quality_links[4],
+        link6=sp+wine_quality_links[5],
+        link7=sp+wine_quality_links[6],
+        link8=sp+wine_quality_links[7],
         name='wine_quality_page.'+name,
         image=image
     )
 
 
-@wine_quality_page.route('/model1')
-def model1():
+@wine_quality_page.route('/naive_bayes')
+def naive_bayes():
+
+    name = 'wine_quality'
+
+    df = data_read()
+
+    # Create Classification version of target variable
+    df['goodquality'] = [1 if x >= 7 else 0 for x in df['quality']]
+    # Separate feature variables and target variable
+    X = df.drop(['quality', 'goodquality'], axis=1)
+    y = df['goodquality']
+
+    print(df['goodquality'].value_counts())
+
+    # Splitting the data
+
+    X_train, X_test, y_train, y_test = train_test_split(
+        X, y, test_size=.25, random_state=0)
+
+    model1 = GaussianNB()
+    model1.fit(X_train, y_train)
+    y_pred1 = model1.predict(X_test)
+    #print(type(classification_report(y_test, y_pred1)))
+
+    report = classification_report(y_test, y_pred1, output_dict=True)
+    df1 = pd.DataFrame(report).transpose()
+    df1 = df1.round(2)
+    stats = pd.Series(['Good Wines', 'Bad Wines', 'Accuracy',
+                       'Macro AVG', 'Weighted AVG'], index=[0, 1, 2, 3, 4])
+    df1['class'] = stats.values
+    json_list = json.loads(json.dumps(
+        list(df1.T.to_dict().values())))
+
+    mae = metrics.mean_absolute_error(y_test, y_pred1)
+    mse = metrics.mean_squared_error(y_test, y_pred1)
+    rmse = np.sqrt(metrics.mean_squared_error(y_test, y_pred1))
+    r2_square = metrics.r2_score(y_test, y_pred1)
+
+    print(accuracy_score(y_test, y_pred1))
+
+    return render_template(
+        'wine_quality.html',
+        tables=json_list,
+        keyword1='MAE',
+        keyword2='MSE',
+        keyword3='RMSE',
+        keyword4='R2 SQUARE',
+        value1=mae.round(4),
+        value2=mse.round(4),
+        value3=rmse.round(4),
+        value4=r2_square.round(4),
+        link1=sp+wine_quality_links[0],
+        link2=sp+wine_quality_links[1],
+        link3=sp+wine_quality_links[2],
+        link4=sp+wine_quality_links[3],
+        link5=sp+wine_quality_links[4],
+        link6=sp+wine_quality_links[5],
+        link7=sp+wine_quality_links[6],
+        link8=sp+wine_quality_links[7],
+        name='wine_quality_page.'+name,
+        title='Decision Tree Classifier'
+    )
+
+
+@wine_quality_page.route('/decision_tree')
+def decision_tree():
 
     name = 'wine_quality'
 
@@ -80,15 +150,32 @@ def model1():
     model1 = DecisionTreeClassifier(random_state=1)
     model1.fit(X_train, y_train)
     y_pred1 = model1.predict(X_test)
-    print(type(classification_report(y_test, y_pred1)))
+    #print(type(classification_report(y_test, y_pred1)))
+
+    report = classification_report(y_test, y_pred1, output_dict=True)
+    df1 = pd.DataFrame(report).transpose()
+    df1 = df1.round(2)
+    stats = pd.Series(['Good Wines', 'Bad Wines', 'Accuracy',
+                       'Macro AVG', 'Weighted AVG'], index=[0, 1, 2, 3, 4])
+    df1['class'] = stats.values
+    json_list = json.loads(json.dumps(
+        list(df1.T.to_dict().values())))
 
     mae = metrics.mean_absolute_error(y_test, y_pred1)
     mse = metrics.mean_squared_error(y_test, y_pred1)
     rmse = np.sqrt(metrics.mean_squared_error(y_test, y_pred1))
     r2_square = metrics.r2_score(y_test, y_pred1)
 
+    print(accuracy_score(y_test, y_pred1))
+
+    #print('Točnost: {:.2f}%'.format(metrics.accuracy_score(y, y_pred)*100))
+    #print('Preciznost: {:.2f}%'.format(metrics.precision_score(y, y_pred, average='macro')*100))
+    #print('Odziv: {:.2f}%'.format(metrics.recall_score(y, y_pred, average='macro')*100))
+    #print('F1: {:.2f}%'.format(metrics.f1_score(y, y_pred, average='macro')*100))
+
     return render_template(
-        'info.html',
+        'wine_quality.html',
+        tables=json_list,
         keyword1='MAE',
         keyword2='MSE',
         keyword3='RMSE',
@@ -97,21 +184,21 @@ def model1():
         value2=mse.round(4),
         value3=rmse.round(4),
         value4=r2_square.round(4),
-        link1=sp+'wine_quality',
-        link2=sp+'model1',
-        link3=sp+'model2',
-        link4=sp+'model3',
-        link5=sp+'model4',
-        link6=sp+'model5',
-        link7=sp+'good',
-        link8=sp+'bad',
+        link1=sp+wine_quality_links[0],
+        link2=sp+wine_quality_links[1],
+        link3=sp+wine_quality_links[2],
+        link4=sp+wine_quality_links[3],
+        link5=sp+wine_quality_links[4],
+        link6=sp+wine_quality_links[5],
+        link7=sp+wine_quality_links[6],
+        link8=sp+wine_quality_links[7],
         name='wine_quality_page.'+name,
-        # image=image
+        title='Decision Tree Classifier'
     )
 
 
-@wine_quality_page.route('/model2')
-def model2():
+@wine_quality_page.route('/random_forest')
+def random_forest():
 
     name = 'wine_quality'
 
@@ -133,7 +220,17 @@ def model2():
     model2 = RandomForestClassifier(random_state=1)
     model2.fit(X_train, y_train)
     y_pred2 = model2.predict(X_test)
-    print(classification_report(y_test, y_pred2))
+    #print(classification_report(y_test, y_pred2))
+
+    report2 = classification_report(y_test, y_pred2, output_dict=True)
+
+    df2 = pd.DataFrame(report2).transpose()
+    df2 = df2.round(2)
+    stats = pd.Series(['Good Wines', 'Bad Wines', 'Accuracy',
+                       'Macro AVG', 'Weighted AVG'], index=[0, 1, 2, 3, 4])
+    df2['class'] = stats.values
+    json_list = json.loads(json.dumps(
+        list(df2.T.to_dict().values())))
 
     mae = metrics.mean_absolute_error(y_test, y_pred2)
     mse = metrics.mean_squared_error(y_test, y_pred2)
@@ -146,7 +243,8 @@ def model2():
     fig.savefig('static/images/randomforest.png')
 
     return render_template(
-        'info.html',
+        'wine_quality.html',
+        tables=json_list,
         keyword1='MAE',
         keyword2='MSE',
         keyword3='RMSE',
@@ -155,20 +253,21 @@ def model2():
         value2=mse.round(4),
         value3=rmse.round(4),
         value4=r2_square.round(4),
-        link1=sp+'wine_quality',
-        link2=sp+'model1',
-        link3=sp+'model2',
-        link4=sp+'model3',
-        link5=sp+'model4',
-        link6=sp+'model5',
-        link7=sp+'good',
-        link8=sp+'bad',
+        link1=sp+wine_quality_links[0],
+        link2=sp+wine_quality_links[1],
+        link3=sp+wine_quality_links[2],
+        link4=sp+wine_quality_links[3],
+        link5=sp+wine_quality_links[4],
+        link6=sp+wine_quality_links[5],
+        link7=sp+wine_quality_links[6],
+        link8=sp+wine_quality_links[7],
         name='wine_quality_page.'+name,
+        title='Random Forest Classifier'
     )
 
 
-@wine_quality_page.route('/model3')
-def model3():
+@wine_quality_page.route('/ada_boost')
+def ada_boost():
 
     name = 'wine_quality'
 
@@ -190,7 +289,17 @@ def model3():
     model3 = AdaBoostClassifier(random_state=1)
     model3.fit(X_train, y_train)
     y_pred3 = model3.predict(X_test)
-    print(classification_report(y_test, y_pred3))
+    #print(classification_report(y_test, y_pred3))
+
+    report3 = classification_report(y_test, y_pred3, output_dict=True)
+
+    df3 = pd.DataFrame(report3).transpose()
+    df3 = df3.round(2)
+    stats = pd.Series(['Good Wines', 'Bad Wines', 'Accuracy',
+                       'Macro AVG', 'Weighted AVG'], index=[0, 1, 2, 3, 4])
+    df3['class'] = stats.values
+    json_list = json.loads(json.dumps(
+        list(df3.T.to_dict().values())))
 
     mae = metrics.mean_absolute_error(y_test, y_pred3)
     mse = metrics.mean_squared_error(y_test, y_pred3)
@@ -198,7 +307,8 @@ def model3():
     r2_square = metrics.r2_score(y_test, y_pred3)
 
     return render_template(
-        'info.html',
+        'wine_quality.html',
+        tables=json_list,
         keyword1='MAE',
         keyword2='MSE',
         keyword3='RMSE',
@@ -207,22 +317,21 @@ def model3():
         value2=mse.round(4),
         value3=rmse.round(4),
         value4=r2_square.round(4),
-        link1=sp+'wine_quality',
-        link2=sp+'model1',
-        link3=sp+'model2',
-        link4=sp+'model3',
-        link5=sp+'model4',
-        link6=sp+'model5',
-        link7=sp+'good',
-        link8=sp+'bad',
+        link1=sp+wine_quality_links[0],
+        link2=sp+wine_quality_links[1],
+        link3=sp+wine_quality_links[2],
+        link4=sp+wine_quality_links[3],
+        link5=sp+wine_quality_links[4],
+        link6=sp+wine_quality_links[5],
+        link7=sp+wine_quality_links[6],
+        link8=sp+wine_quality_links[7],
         name='wine_quality_page.'+name,
+        title='Ada Boost Classifier'
     )
 
 
-@wine_quality_page.route('/model4')
-def model4():
-
-    name = 'wine_quality'
+@wine_quality_page.route('/gradient_boost')
+def gradient_boost():
 
     df = data_read()
 
@@ -242,7 +351,17 @@ def model4():
     model4 = GradientBoostingClassifier(random_state=1)
     model4.fit(X_train, y_train)
     y_pred4 = model4.predict(X_test)
-    print(classification_report(y_test, y_pred4))
+    #print(classification_report(y_test, y_pred4))
+
+    report4 = classification_report(y_test, y_pred4, output_dict=True)
+
+    df4 = pd.DataFrame(report4).transpose()
+    df4 = df4.round(2)
+    stats = pd.Series(['Good Wines', 'Bad Wines', 'Accuracy',
+                       'Macro AVG', 'Weighted AVG'], index=[0, 1, 2, 3, 4])
+    df4['class'] = stats.values
+    json_list = json.loads(json.dumps(
+        list(df4.T.to_dict().values())))
 
     mae = metrics.mean_absolute_error(y_test, y_pred4)
     mse = metrics.mean_squared_error(y_test, y_pred4)
@@ -250,7 +369,8 @@ def model4():
     r2_square = metrics.r2_score(y_test, y_pred4)
 
     return render_template(
-        'info.html',
+        'wine_quality.html',
+        tables=json_list,
         keyword1='MAE',
         keyword2='MSE',
         keyword3='RMSE',
@@ -259,20 +379,20 @@ def model4():
         value2=mse.round(4),
         value3=rmse.round(4),
         value4=r2_square.round(4),
-        link1=sp+'wine_quality',
-        link2=sp+'model1',
-        link3=sp+'model2',
-        link4=sp+'model3',
-        link5=sp+'model4',
-        link6=sp+'model5',
-        link7=sp+'good',
-        link8=sp+'bad',
-        name='wine_quality_page.'+name,
+        link1=sp+wine_quality_links[0],
+        link2=sp+wine_quality_links[1],
+        link3=sp+wine_quality_links[2],
+        link4=sp+wine_quality_links[3],
+        link5=sp+wine_quality_links[4],
+        link6=sp+wine_quality_links[5],
+        link7=sp+wine_quality_links[6],
+        link8=sp+wine_quality_links[7],
+        title='Gradient Boosting Classifier'
     )
 
 
-@wine_quality_page.route('/model5')
-def model5():
+@wine_quality_page.route('/xg_boost')
+def xg_boost():
 
     name = 'wine_quality'
 
@@ -296,6 +416,16 @@ def model5():
     y_pred5 = model5.predict(X_test)
     print(classification_report(y_test, y_pred5))
 
+    report5 = classification_report(y_test, y_pred5, output_dict=True)
+
+    df5 = pd.DataFrame(report5).transpose()
+    df5 = df5.round(2)
+    stats = pd.Series(['Good Wines', 'Bad Wines', 'Accuracy',
+                       'Macro AVG', 'Weighted AVG'], index=[0, 1, 2, 3, 4])
+    df5['class'] = stats.values
+    json_list = json.loads(json.dumps(
+        list(df5.T.to_dict().values())))
+
     mae = metrics.mean_absolute_error(y_test, y_pred5)
     mse = metrics.mean_squared_error(y_test, y_pred5)
     rmse = np.sqrt(metrics.mean_squared_error(y_test, y_pred5))
@@ -312,7 +442,8 @@ def model5():
     fig.savefig('static/images/gbc.png')
 
     return render_template(
-        'info.html',
+        'wine_quality.html',
+        tables=json_list,
         keyword1='MAE',
         keyword2='MSE',
         keyword3='RMSE',
@@ -321,20 +452,21 @@ def model5():
         value2=mse.round(4),
         value3=rmse.round(4),
         value4=r2_square.round(4),
-        link1=sp+'wine_quality',
-        link2=sp+'model1',
-        link3=sp+'model2',
-        link4=sp+'model3',
-        link5=sp+'model4',
-        link6=sp+'model5',
-        link7=sp+'good',
-        link8=sp+'bad',
+        link1=sp+wine_quality_links[0],
+        link2=sp+wine_quality_links[1],
+        link3=sp+wine_quality_links[2],
+        link4=sp+wine_quality_links[3],
+        link5=sp+wine_quality_links[4],
+        link6=sp+wine_quality_links[5],
+        link7=sp+wine_quality_links[6],
+        link8=sp+wine_quality_links[7],
         name='wine_quality_page.'+name,
+        title='XGBClassifier'
     )
 
 
-@wine_quality_page.route('/good')
-def good():
+@wine_quality_page.route('/good_wines')
+def good_wines():
     df = data_read()
 
     # Create Classification version of target variable
@@ -358,21 +490,22 @@ def good():
     return render_template(
         'table.html',
         tables=json_list,
-        title='describe',
-        link1=sp+'wine_quality',
-        link2=sp+'model1',
-        link3=sp+'model2',
-        link4=sp+'model3',
-        link5=sp+'model4',
-        link6=sp+'model5',
-        link7=sp+'good',
-        link8=sp+'bad',
-        switch=1
+        title='Good Wines',
+        link1=sp+wine_quality_links[0],
+        link2=sp+wine_quality_links[1],
+        link3=sp+wine_quality_links[2],
+        link4=sp+wine_quality_links[3],
+        link5=sp+wine_quality_links[4],
+        link6=sp+wine_quality_links[5],
+        link7=sp+wine_quality_links[6],
+        link8=sp+wine_quality_links[7],
+        switch=1,
+        wine='wine'
     )
 
 
-@wine_quality_page.route('/bad')
-def bad():
+@wine_quality_page.route('/bad_wines')
+def bad_wines():
     df = data_read()
 
     # Create Classification version of target variable
@@ -396,16 +529,17 @@ def bad():
     return render_template(
         'table.html',
         tables=json_list,
-        title='describe',
-        link1=sp+'wine_quality',
-        link2=sp+'model1',
-        link3=sp+'model2',
-        link4=sp+'model3',
-        link5=sp+'model4',
-        link6=sp+'model5',
-        link7=sp+'good',
-        link8=sp+'bad',
-        switch=1
+        title='Bad Wines',
+        link1=sp+wine_quality_links[0],
+        link2=sp+wine_quality_links[1],
+        link3=sp+wine_quality_links[2],
+        link4=sp+wine_quality_links[3],
+        link5=sp+wine_quality_links[4],
+        link6=sp+wine_quality_links[5],
+        link7=sp+wine_quality_links[6],
+        link8=sp+wine_quality_links[7],
+        switch=1,
+        wine='wine'
     )
 
 

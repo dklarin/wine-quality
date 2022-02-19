@@ -35,6 +35,11 @@
         ><div class="button-font">{{link1 | tocka | title }}</div>
         </a
         >
+        {% if wine %}
+        <div>
+          <h3>Classifiers</h3>
+        </div>
+        {% endif %}
         <a
           href="{{ url_for(link2, _external=True) }}"
           class="btn btn-primary btn-lg"
@@ -80,6 +85,11 @@
         <div class="button-font">{{link6 | tocka | title }}</div></a
         >
         {% else %} {% endif %} {% if link7 %}
+        {% if wine %}
+        <div>
+          <h3>Classification</h3>
+        </div>
+        {% endif %}
         <a
           href="{{ url_for(link7, _external=True) }}"
           class="btn btn-primary btn-lg"

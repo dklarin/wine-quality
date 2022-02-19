@@ -12,8 +12,8 @@ import os.path
 from methods import *
 
 from reg_lin import reg_lin_page
-from reg_lin_gra_spu import reg_lin_gra_spu_page
-from reg_lin_una_val import reg_lin_una_val_page
+from reg_lin_gra_des import reg_lin_gra_spu_page
+from reg_lin_cro_val import reg_lin_una_val_page
 from reg_pol import reg_pol_page
 from wine import wine_page
 from wine_quality import wine_quality_page

@@ -106,6 +106,8 @@ def rlcv_matrics():
     ax = sns.heatmap(data_copy.corr())
     fig = ax.get_figure()
     fig.savefig('static/images/rlcv_matrics.png')
+    plt.clf()
+    plt.cla()
     plt.close(fig)
 
     image = os.path.join('static/images/rlcv_matrics.png')

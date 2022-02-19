@@ -1,9 +1,200 @@
-{% extends "base.html" %} {% block title %}Stack Exchange Data{% endblock %}
-{% block navbar %} {% include "header.html" %} {% include "footer.html" %} {%
-endblock %} {% block content %}
-<div class="container">
-  <div class="page-header">
-    <h1>{{name | capitalize }}</h1>
+{% extends "base.html" %} {% block content %}
+<style type="text/css">
+  .grid-container {
+    display: grid;
+  }
+
+  .grid-container-2 {
+    display: grid;
+    grid-template-columns: 3fr 1fr 1.5fr 1.5fr 1fr 3fr;
+    font-size: 250%;
+  }
+
+  .grid-item-1 {
+    grid-column: 3;
+    text-align: left;
+  }
+  .grid-item-2 {
+    grid-column: 4;
+    text-align: right;
+  }
+
+  .img-container {
+    text-align: center;
+    margin-top: 0cm;
+  }
+
+  .bigger-font {
+    font-size: 350%;
+    margin-top: 1cm;
+  }
+
+  .button-font {
+    margin-left: 1cm;
+    text-align: left;
+  }
+  .moja {
+    margin-top: 2cm;
+  }
+</style>
+
+<div class="container-fluid text-left">
+  <div class="row">
+    <div class="col-md-2 sidenav">
+      <div class="grid-container">
+        <a
+          href="{{ url_for(link1, _external=True) }}"
+          class="btn btn-primary btn-lg"
+          role="button"
+          aria-disabled="true"
+        >
+          <div class="button-font">{{link1 | tocka | title }}</div></a
+        >
+        <div>
+          <h3>Classifiers</h3>
+        </div>
+        <a
+          href="{{ url_for(link2, _external=True) }}"
+          class="btn btn-primary btn-lg"
+          role="button"
+          aria-disabled="true"
+        >
+          <div class="button-font">{{link2 | tocka | title }}</div></a
+        >
+        {% if link3 %}
+        <a
+          href="{{ url_for(link3, _external=True) }}"
+          class="btn btn-primary btn-lg"
+          role="button"
+          aria-disabled="true"
+        >
+          <div class="button-font">{{link3 | tocka | title }}</div></a
+        >
+        {% else %} {% endif %} {% if link4 %}
+        <a
+          href="{{ url_for(link4, _external=True) }}"
+          class="btn btn-primary btn-lg"
+          role="button"
+          aria-disabled="true"
+        >
+          <div class="button-font">{{link4 | tocka | title }}</div></a
+        >
+        {% else %} {% endif %} {% if link5 %}
+        <a
+          href="{{ url_for(link5, _external=True) }}"
+          class="btn btn-primary btn-lg"
+          role="button"
+          aria-disabled="true"
+        >
+          <div class="button-font">{{link5 | tocka | title }}</div></a
+        >
+        {% else %} {% endif %} {% if link6 %}
+        <a
+          href="{{ url_for(link6, _external=True) }}"
+          class="btn btn-primary btn-lg"
+          role="button"
+          aria-disabled="true"
+        >
+          <div class="button-font">{{link6 | tocka | title }}</div></a
+        >
+        {% else %} {% endif %} {% if link7 %}
+        <div>
+          <h3>Classification</h3>
+        </div>
+        <a
+          href="{{ url_for(link7, _external=True) }}"
+          class="btn btn-primary btn-lg"
+          role="button"
+          aria-disabled="true"
+        >
+          <div class="button-font">{{link7 | tocka | title }}</div></a
+        >
+        {% else %} {% endif %} {% if link8 %}
+        <a
+          href="{{ url_for(link8, _external=True) }}"
+          class="btn btn-primary btn-lg"
+          role="button"
+          aria-disabled="true"
+        >
+          <div class="button-font">{{link8 | tocka | title }}</div></a
+        >
+        {% else %} {% endif %}
+      </div>
+    </div>
+
+    <div class="col-md-8 text-center">
+      <h1>{{title}}</h1>
+      <br />
+      {% if value1 %}
+      <div class="grid-container-2">
+        <div class="grid-item-1">
+          {{keyword1 | title}}:
+          <br />
+          {{keyword2 | title}}:
+          <br />
+          {% if value3 %} {{keyword3 | title}}: {% endif %}
+          <br />
+          {% if value4 %} {{keyword4 | title}}: {% endif %}
+        </div>
+        <div class="grid-item-2">
+          {{value1}}
+          <br />
+          {{value2}}
+          <br />
+          {% if value3 %} {{value3}} {% endif %}
+          <br />
+          {% if value4 %} {{value4}} {% endif %}
+        </div>
+      </div>
+      <div class="moja">
+        <ul>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th>Class</th>
+                <th>Precision</th>
+                <th>Recall</th>
+                <th>f1-score</th>
+                <th>Support</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for table in tables %}
+              <tr>
+                <td>{{table['class']}}</td>
+                <td>{{table['precision']}}</td>
+                <td>{{table['recall']}}</td>
+                <td>{{table['f1-score']}}</td>
+                <td>{{table['support']}}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </ul>
+      </div>
+      {% elif image %}
+      <div class="img-container">
+        <img src="{{image}}" alt="Chart" height="720" width="1200" />
+        <br />
+        <h2>{% if imageText %} {{imageText | capitalize}} {% endif %}</h2>
+      </div>
+      {% else %} {% endif %}
+    </div>
+
+    <div class="col-md-2 sidenav"></div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-2 sidenav"></div>
+    <div class="col-md-8 text-center"></div>
+    <div class="col-md-2 sidenav"></div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-2 sidenav"></div>
+    <div class="col-md-8 text-center"></div>
+    <div class="col-md-2 sidenav"></div>
   </div>
 </div>
+
 {% endblock %}
