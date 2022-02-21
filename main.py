@@ -27,6 +27,12 @@ app.register_blueprint(reg_pol_page)
 app.register_blueprint(wine_page)
 app.register_blueprint(wine_quality_page)
 
+'''def classification_eval(y, y_pred):
+  print('Točnost: {:.2f}%'.format(metrics.accuracy_score(y, y_pred)*100))
+  print('Preciznost: {:.2f}%'.format(metrics.precision_score(y, y_pred, average='macro')*100))
+  print('Odziv: {:.2f}%'.format(metrics.recall_score(y, y_pred, average='macro')*100))
+  print('F1: {:.2f}%'.format(metrics.f1_score(y, y_pred, average='macro')*100))'''
+
 
 data = pd.read_csv("winequality-red.csv")
 
