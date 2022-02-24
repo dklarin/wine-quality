@@ -1,8 +1,6 @@
-import pandas as pd
 from sklearn import linear_model, metrics
 from sklearn.preprocessing import PolynomialFeatures
 import matplotlib.pyplot as plt
-from math import degrees
 import numpy as np
 import matplotlib
 import os.path

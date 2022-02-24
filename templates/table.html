@@ -246,15 +246,15 @@
                 <thead>
                   <tr>
                    {% if switch == 2 %}
-                      <th>Prave vrijednosti</th>
-                      <th>Procjene</th>                
+                      <th>Real Values</th>
+                      <th>Predictions</th>                
                   </tr>
                 </thead>
                 <tbody>
                   {% for table in tables %}
                   <tr>
-              <td>{{table['Prave vrijednosti']}}</td>
-                      <td>{{table['Procjene']}}</td>
+              <td>{{table['Real Values']}}</td>
+                      <td>{{table['Predictions']}}</td>
                       {% endfor %}
                       {% endif %}
                   </tr>             

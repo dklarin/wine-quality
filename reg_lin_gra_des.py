@@ -1,8 +1,5 @@
 from flask import Blueprint, render_template
-#from methods import *
 import numpy as np
-import os.path
-import pandas as pd
 from reg_lin_methods import *
 from data_read import *
 
@@ -12,7 +9,7 @@ reg_lin_gra_spu_page = Blueprint('reg_lin_gra_spu_page', __name__,
 sp = 'reg_lin_gra_spu_page.'
 
 gra_spu_links = ['rlgd_distribution_alcohol', 'rlgd_distribution_ph',
-                 'rlgd_gradient_descent', 'rlgd_cost_function', 'rlgd_regression_look']
+                 'rlgd_gradient_descent', 'rlgd_cost_function', 'rlgd_regression_appearance']
 
 x = x_alcohol()
 y = x_ph()
@@ -116,10 +113,10 @@ def rlgd_cost_function():
 
 
 # 1.1.5
-@reg_lin_gra_spu_page.route('/rlgd_regression_look')
-def rlgd_regression_look():
+@reg_lin_gra_spu_page.route('/rlgd_regression_appearance')
+def rlgd_regression_appearance():
 
-    pic = 'static/images/rlgd_regression_look.png'
+    pic = 'static/images/rlgd_regression_appearance.png'
 
     image = handle_image_reg(x_scaled, y, theta[0], theta[1], pic)
 
@@ -131,5 +128,5 @@ def rlgd_regression_look():
         link4=sp+gra_spu_links[3],
         link5=sp+gra_spu_links[4],
         button1='Alcohol Distribution',
-        title='Regression Look',
+        title='regression appearance',
         image=image)

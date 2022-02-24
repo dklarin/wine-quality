@@ -46,8 +46,8 @@ def plot_regression(x_scaled, y, theta_0, theta_1):
     y = theta_1 * x + theta_0
     plt.plot(x, y)
     plt.title('Prediction visualization')
-    plt.xlabel('Alcohol percent')
-    plt.ylabel('Quality of wine')
+    plt.xlabel('Alcohol Percent')
+    plt.ylabel('pH Values')
     return plt
 
 
@@ -76,6 +76,9 @@ def handle_image_reg(x_scaled, y, theta_0, theta_1, pic):
         return image
     else:
         plt.savefig(pic)
+        plt.clf()
+        plt.cla()
+        plt.close()
 
 
 # reg_lin_izgled_regresije
@@ -103,9 +106,8 @@ def handle_image_reg_lin(x_scaled, x, y, theta_0, theta_1, pic, i, j):
         plt.close()
         return image
 
+
 # reg_lin_izgled_regresije
-
-
 def handle_image_reg_lin_not_scaled(x_scaled, x, y, theta_0, theta_1, pic, i, j):
 
     file_exists = os.path.exists(pic)

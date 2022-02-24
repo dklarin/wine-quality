@@ -1,12 +1,10 @@
 from flask import Blueprint, render_template
-#from methods import *
 import numpy as np
-import os.path
 import pandas as pd
 from reg_lin_methods import *
 from data_read import *
 from sklearn.preprocessing import PolynomialFeatures
-from sklearn import linear_model, metrics
+from sklearn import linear_model
 from reg_pol_methods import *
 from reg_lin_methods import *
 
@@ -89,5 +87,4 @@ def wine_2():
         image=image_lin,
         image2=image_pol,
         text='Vino 1, Alkohol: 12%, pH: 2,9'
-
     )

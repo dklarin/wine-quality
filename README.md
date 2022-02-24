@@ -18,10 +18,11 @@
 2. install virtual environment with <code>py -m venv venv</code>
 3. run environment with <code>venv/scripts/activate.ps1</code>
 4. install packages from requirements.txt <code>pip install -r requirements.txt</code>
-5. run with <code>py wsgi.py</code>
-6. open browser and type: 127.0.0.1:5000
+5. upgrade pip version <code>py -m pip install --upgrade pip</code>
+6. run with <code>py wsgi.py</code>
+7. open browser and type: 127.0.0.1:5000
 
 ### Python
 
-* if you have problem installing virtual environment (venv) try python instead of py
-* same thing with running the code
+- if you have problem installing virtual environment (venv) try python instead of py
+- same thing with running the code

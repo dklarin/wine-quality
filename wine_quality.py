@@ -1,8 +1,6 @@
-import numpy as np
 import pandas as pd
 import matplotlib as plt
 import seaborn as sns
-import plotly.express as px
 from flask import Blueprint, render_template
 import matplotlib.pyplot as plt
 import os.path
@@ -15,7 +13,6 @@ from sklearn.ensemble import AdaBoostClassifier
 from sklearn.ensemble import GradientBoostingClassifier
 import xgboost as xgb
 from sklearn.naive_bayes import GaussianNB
-from sklearn.metrics import confusion_matrix, accuracy_score
 import json
 
 from sklearn import metrics
@@ -85,7 +82,6 @@ def decision_tree():
     model1 = DecisionTreeClassifier(random_state=1)
     model1.fit(X_train, y_train)
     y_pred1 = model1.predict(X_test)
-    #print(type(classification_report(y_test, y_pred1)))
 
     report = classification_report(y_test, y_pred1, output_dict=True)
     df1 = pd.DataFrame(report).transpose()
@@ -149,7 +145,6 @@ def random_forest():
     model2 = RandomForestClassifier(random_state=1)
     model2.fit(X_train, y_train)
     y_pred2 = model2.predict(X_test)
-    #print(classification_report(y_test, y_pred2))
 
     report2 = classification_report(y_test, y_pred2, output_dict=True)
 
@@ -359,16 +354,6 @@ def xg_boost():
     json_list = json.loads(json.dumps(
         list(df5.T.to_dict().values())))
 
-    mae = metrics.mean_absolute_error(y_test, y_pred5)
-    mse = metrics.mean_squared_error(y_test, y_pred5)
-    rmse = np.sqrt(metrics.mean_squared_error(y_test, y_pred5))
-    r2_square = metrics.r2_score(y_test, y_pred5)
-
-    #feat_importances = pd.Series(model2.feature_importances_, index=X.columns)
-    #ax = feat_importances.nlargest(25).plot(kind='barh', figsize=(10, 10))
-    #fig = ax.get_figure()
-    # fig.savefig('static/images/randomforest.png')
-
     feat_importances = pd.Series(model5.feature_importances_, index=X.columns)
     ax = feat_importances.nlargest(25).plot(kind='barh', figsize=(10, 10))
     fig = ax.get_figure()
@@ -479,97 +464,4 @@ def bad_wines():
         link8=sp+wine_quality_links[7],
         switch=1,
         wine='wine'
-    )
-
-
-@wine_quality_page.route('/quality8')
-def quality8():
-    df = data_read()
-
-    # Filtering df for only good quality
-    df_temp = df[df['quality'] == 8]
-    df_temp = df_temp.describe()
-    describe = df_temp.round(2)
-
-    stats = pd.Series(['count', 'mean', 'std', 'min', '25%', '50%',
-                       '75%', 'max'], index=[0, 1, 2, 3, 4, 5, 6, 7])
-    describe['statistics'] = stats.values
-
-    json_list = json.loads(json.dumps(
-        list(describe.T.to_dict().values())))
-
-    return render_template(
-        'table.html',
-        tables=json_list,
-        title='describe',
-        link1='dataset',
-        link2='describe',
-        link3='shape',
-        switch=1
-    )
-
-
-@wine_quality_page.route('/quality7')
-def quality7():
-    df = data_read()
-
-    # Create Classification version of target variable
-    #df['goodquality'] = [1 if x >= 7 else 0 for x in df['quality']]
-    # Separate feature variables and target variable
-    #X = df.drop(['quality', 'goodquality'], axis=1)
-    #y = df['goodquality']
-
-    # Filtering df for only good quality
-    df_temp = df[df['quality'] == 7]
-    df_temp = df_temp.describe()
-    describe = df_temp.round(2)
-
-    stats = pd.Series(['count', 'mean', 'std', 'min', '25%', '50%',
-                       '75%', 'max'], index=[0, 1, 2, 3, 4, 5, 6, 7])
-    describe['statistics'] = stats.values
-
-    json_list = json.loads(json.dumps(
-        list(describe.T.to_dict().values())))
-
-    return render_template(
-        'table.html',
-        tables=json_list,
-        title='describe',
-        link1='dataset',
-        link2='describe',
-        link3='shape',
-        switch=1
-    )
-
-
-@wine_quality_page.route('/quality6')
-def quality6():
-    df = data_read()
-
-    # Create Classification version of target variable
-    #df['goodquality'] = [1 if x >= 7 else 0 for x in df['quality']]
-    # Separate feature variables and target variable
-    #X = df.drop(['quality', 'goodquality'], axis=1)
-    #y = df['goodquality']
-
-    # Filtering df for only good quality
-    df_temp = df[df['quality'] == 6]
-    df_temp = df_temp.describe()
-    describe = df_temp.round(2)
-
-    stats = pd.Series(['count', 'mean', 'std', 'min', '25%', '50%',
-                       '75%', 'max'], index=[0, 1, 2, 3, 4, 5, 6, 7])
-    describe['statistics'] = stats.values
-
-    json_list = json.loads(json.dumps(
-        list(describe.T.to_dict().values())))
-
-    return render_template(
-        'table.html',
-        tables=json_list,
-        title='describe',
-        link1='dataset',
-        link2='describe',
-        link3='shape',
-        switch=1
     )

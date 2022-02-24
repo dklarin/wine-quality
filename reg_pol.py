@@ -7,13 +7,12 @@ import pandas as pd
 from sklearn import linear_model, metrics
 from sklearn.preprocessing import PolynomialFeatures
 import matplotlib.pyplot as plt
-from ast import keyword
-from flask import Blueprint, render_template, abort
-from jinja2 import TemplateNotFound
+from flask import Blueprint, render_template
+
 
 import matplotlib
 matplotlib.use('Agg')
-# from methods import *
+
 
 reg_pol_page = Blueprint('reg_pol_page', __name__,
                          template_folder='templates')
@@ -21,16 +20,7 @@ reg_pol_page = Blueprint('reg_pol_page', __name__,
 sp = 'reg_pol_page.'
 
 reg_pol_links = ['rp_regression_look', 'rp_metrics',
-                 'rp_forced_access', 'treniranje_modela', 'izgled_modela']
-
-
-'''@reg_pol_page.route('/', defaults={'page': 'index'})
-@reg_pol_page.route('/<page>')
-def show(page):
-    try:
-        return render_template(f'pages/{page}.html')
-    except TemplateNotFound:
-        abort(404)'''
+                 'rp_forced_access', 'model_training', 'model_appearance']
 
 
 x = x_alcohol()
@@ -152,8 +142,8 @@ def rp_forced_access():
 
 
 # 2.4
-@reg_pol_page.route('/treniranje_modela')
-def treniranje_modela():
+@reg_pol_page.route('/model_training')
+def model_training():
 
     min_deg = 1
     max_deg = 10
@@ -166,7 +156,7 @@ def treniranje_modela():
     lr.fit(x_poly, y)
     y_predict = lr.predict(x_poly)
 
-    df = pd.DataFrame({'Prave vrijednosti': y, 'Procjene': y_predict})
+    df = pd.DataFrame({'Real Values': y, 'Predictions': y_predict})
 
     json_list = json.loads(json.dumps(
         list(df.head(14).T.to_dict().values())))
@@ -179,14 +169,14 @@ def treniranje_modela():
         link4=sp+reg_pol_links[3],
         link5=sp+reg_pol_links[4],
         tables=json_list,
-        title='treniranje modela tablica',
+        title='Trained Model Table',
         switch=2,
     )
 
 
 # 2.5
-@reg_pol_page.route('/izgled_modela')
-def izgled_modela():
+@reg_pol_page.route('/model_appearance')
+def model_appearance():
 
     min_deg = 1
     max_deg = 10
@@ -210,7 +200,7 @@ def izgled_modela():
         link3=sp+reg_pol_links[2],
         link4=sp+reg_pol_links[3],
         link5=sp+reg_pol_links[4],
-        title='izgled treniranog modela',
+        title='Trained Model Appearance',
         image=image_pol,
         switch=2,
     )

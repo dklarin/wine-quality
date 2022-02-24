@@ -1,13 +1,7 @@
-from ast import keyword
-from unittest import result
 from flask import Flask, render_template
 from flask_bootstrap3 import Bootstrap
-import requests
 import json
 import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-import os.path
 
 from methods import *
 
@@ -26,13 +20,6 @@ app.register_blueprint(reg_lin_una_val_page)
 app.register_blueprint(reg_pol_page)
 app.register_blueprint(wine_page)
 app.register_blueprint(wine_quality_page)
-
-'''def classification_eval(y, y_pred):
-  print('Točnost: {:.2f}%'.format(metrics.accuracy_score(y, y_pred)*100))
-  print('Preciznost: {:.2f}%'.format(metrics.precision_score(y, y_pred, average='macro')*100))
-  print('Odziv: {:.2f}%'.format(metrics.recall_score(y, y_pred, average='macro')*100))
-  print('F1: {:.2f}%'.format(metrics.f1_score(y, y_pred, average='macro')*100))'''
-
 
 data = pd.read_csv("winequality-red.csv")
 
@@ -116,8 +103,8 @@ def shape():
     shape = data.shape
     return render_template(
         'info.html',
-        keyword1='retci',
-        keyword2='stupci',
+        keyword1='rows',
+        keyword2='columns',
         value1=shape[0],
         value2=shape[1],
         title='shape',
@@ -129,6 +116,6 @@ def shape():
 
 @app.route('/links')
 def links():
-    linkovi = ['https://www.pmfst.unist.hr/',
-               'https://www.pmfst.unist.hr/kalendar/']
-    return render_template('links.html', linkovi=linkovi)
+    links = ['https://www.kaggle.com/uciml/red-wine-quality-cortez-et-al-2009', 'https://www.pmfst.unist.hr/',
+             'https://www.pmfst.unist.hr/kalendar/']
+    return render_template('links.html', links=links)

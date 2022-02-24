@@ -1,5 +1,4 @@
-from flask import Blueprint, render_template, abort
-from jinja2 import TemplateNotFound
+from flask import Blueprint, render_template
 from methods import *
 import os.path
 import pandas as pd
