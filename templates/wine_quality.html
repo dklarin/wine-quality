@@ -122,7 +122,9 @@
       </div>
     </div>
 
-    <div class="col-md-8 text-center">
+    <div class="col-md-1 sidenav"></div>
+
+    <div class="col-md-6 text-center">
       <h1>{{title}}</h1>
       <br />
       {% if value1 %}
@@ -148,20 +150,20 @@
       </div>
       <div class="moja">
         <ul>
-          <table class="table table-bordered table-striped">
+          <table class="table table-bordered table-striped table-hover">
             <thead>
               <tr>
-                <th>Class</th>
-                <th>Precision</th>
-                <th>Recall</th>
-                <th>f1-score</th>
-                <th>Support</th>
+                <th style="text-align: center">Class</th>
+                <th style="text-align: center">Precision</th>
+                <th style="text-align: center">Recall</th>
+                <th style="text-align: center">f1-score</th>
+                <th style="text-align: center">Support</th>
               </tr>
             </thead>
             <tbody>
               {% for table in tables %}
-              <tr>
-                <td>{{table['class']}}</td>
+              <tr style="text-align: right">
+                <td style="text-align: left">{{table['class']}}</td>
                 <td>{{table['precision']}}</td>
                 <td>{{table['recall']}}</td>
                 <td>{{table['f1-score']}}</td>

@@ -21,13 +21,11 @@ x_scaled = np.c_[np.ones(x_scaled.shape[0]), x_scaled]
 # Hiperparametri za gradijentni spust
 alpha = 0.01
 iterations = 2000
-#m = y.size
 np.random.seed(123)
 theta = np.random.rand(2)
 
 # Izračun gradijentnog spusta
-past_thetas, past_costs = gradient_descent(
-    x_scaled, y, theta, iterations, alpha)
+past_thetas, past_costs = gradient_descent(x_scaled, y, theta, iterations, alpha)
 theta = past_thetas[-1]
 
 

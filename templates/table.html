@@ -160,7 +160,8 @@
       {% else %} {% endif %} {% if switch != 2 %}
       <div class="moja">
         <ul>
-          <table class="table table-bordered table-striped">
+          <div class="table-responsive">
+          <table class="table table-bordered table-striped table-hover">
             <thead>
               <tr>
                 {% if switch == 0 %}
@@ -228,6 +229,7 @@
               {% endfor %}
             </tbody>
           </table>
+           </div>
         </ul>
       </div>
     </div>

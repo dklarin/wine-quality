@@ -22,7 +22,7 @@ def gradient_descent(x, y, theta, iterations, alpha):
 # distribution_quality
 def histogram(x, x_ax):
     fig, ax = plt.subplots()
-    plt.hist(x, density=True, bins=30)
+    plt.hist(x, density=False, bins=30)
     plt.ylabel('Count')
     plt.xlabel(x_ax)
     return fig
