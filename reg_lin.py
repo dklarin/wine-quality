@@ -4,7 +4,7 @@ from flask import Blueprint, render_template
 reg_lin_page = Blueprint('reg_lin_page', __name__,
                          template_folder='templates')
 
-sp = ['reg_lin_page.', 'reg_lin_gra_spu_page.', 'reg_lin_una_val_page.']
+sp = ['reg_lin_page.', 'reg_lin_gra_des_page.', 'reg_lin_cro_val_page.']
 
 reg_lin_links = ['gradient_descent', 'cross_validation']
 gra_spu_links = ['rlgd_distribution_alcohol', 'rlgd_distribution_ph',

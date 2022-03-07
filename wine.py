@@ -6,7 +6,7 @@ from data_read import *
 from sklearn.preprocessing import PolynomialFeatures
 from sklearn import linear_model
 from reg_pol_methods import *
-from reg_lin_methods import *
+
 
 wine_page = Blueprint('wine_page', __name__,
                       template_folder='templates')

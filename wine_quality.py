@@ -6,6 +6,8 @@ import matplotlib.pyplot as plt
 import os.path
 from sklearn.model_selection import train_test_split
 
+from sklearn.preprocessing import StandardScaler
+
 from sklearn.metrics import classification_report, recall_score
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier
@@ -75,6 +77,7 @@ def decision_tree():
     print(df['goodquality'].value_counts())
 
     # Splitting the data
+    X = StandardScaler().fit_transform(X)
 
     X_train, X_test, y_train, y_test = train_test_split(
         X, y, test_size=.25, random_state=0)

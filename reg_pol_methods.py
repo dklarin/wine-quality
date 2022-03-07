@@ -45,8 +45,6 @@ def rmses_deg_from_range(x, y, min_deg, max_deg):
     min_rmse, min_deg = 1e10, 0
     rmses = []
 
-    # print(degrees)
-
     for deg in degrees:
 
         poly_features = PolynomialFeatures(degree=deg)
@@ -64,7 +62,6 @@ def rmses_deg_from_range(x, y, min_deg, max_deg):
             min_rmse = poly_rmse
             min_deg = deg
 
-    # print(rmses)
     return (rmses, min_rmse, min_deg)
 
 

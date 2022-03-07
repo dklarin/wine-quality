@@ -6,8 +6,8 @@ import pandas as pd
 from methods import *
 
 from reg_lin import reg_lin_page
-from reg_lin_gra_des import reg_lin_gra_spu_page
-from reg_lin_cro_val import reg_lin_una_val_page
+from reg_lin_gra_des import reg_lin_gra_des_page
+from reg_lin_cro_val import reg_lin_cro_val_page
 from reg_pol import reg_pol_page
 from wine import wine_page
 from wine_quality import wine_quality_page
@@ -15,8 +15,8 @@ from wine_quality import wine_quality_page
 app = Flask(__name__)
 bootstrap = Bootstrap(app)
 app.register_blueprint(reg_lin_page)
-app.register_blueprint(reg_lin_gra_spu_page)
-app.register_blueprint(reg_lin_una_val_page)
+app.register_blueprint(reg_lin_gra_des_page)
+app.register_blueprint(reg_lin_cro_val_page)
 app.register_blueprint(reg_pol_page)
 app.register_blueprint(wine_page)
 app.register_blueprint(wine_quality_page)

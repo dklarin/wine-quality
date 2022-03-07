@@ -27,6 +27,13 @@ x = x_alcohol()
 y = x_ph()
 
 
+poly_reg = PolynomialFeatures(degree=4)
+x_poly = poly_reg.fit_transform(x.to_numpy().reshape(-1, 1))
+lr = linear_model.LinearRegression(fit_intercept=True, copy_X=True)
+lr.fit(x_poly, y)
+y_predict = lr.predict(x_poly)
+
+
 # 2
 @reg_pol_page.route('/regression_polynomial')
 def regression_polynomial():
@@ -111,7 +118,7 @@ def rp_forced_access():
     rmses, min_rmse, min_deg = rmses_deg_from_range(x, y, min_deg, max_deg)
     degrees = range(1, 10)
 
-    fig = plt.figure()
+    fig = plt.figure(figsize=(10, 7))
     ax = fig.add_subplot(111)
     ax.plot(degrees, rmses)
     ax.set_yscale('log')

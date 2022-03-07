@@ -23,7 +23,7 @@ def y_quality():
 
 
 def copy_data():
-    data_copy = data[["residual sugar", "sulphates", "alcohol", "quality"]]
+    data_copy = data[["residual sugar", "sulphates", "alcohol", "pH"]]
     return data_copy
 
 
